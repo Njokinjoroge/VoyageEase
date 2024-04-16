@@ -4,7 +4,7 @@ from models import db
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABAASE_URI'] = 'sqlite:///travel_app.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
 app.config['SQLALCHEMY_TRACK CHANGES'] = False
 
 db.init_app(app)
