@@ -10,7 +10,6 @@ function LoginPage(){
 
             const backendHtml = await response.text()
     
-           console.log(backendHtml)
             return {__html: backendHtml};
          }
 
