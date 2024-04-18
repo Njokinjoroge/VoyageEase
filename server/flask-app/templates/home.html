@@ -1,0 +1,16 @@
+<!-- templates/home.html -->
+{% extends "layout.html" %}
+{% block content %}
+  {% for destination in destinations %}
+    <article class="destination">
+      <div class="destination-image" style="background-image: url('{{ destination.image_url }}');">
+        <!-- You can adjust the background size and position as needed -->
+      </div>
+      <div class="destination-details">
+        <h2>{{ destination.name }}</h2>
+        <p>{{ destination.description }}</p>
+        <p>Country: {{ destination.country }}</p>
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}
