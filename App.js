@@ -1,17 +1,18 @@
 import React from 'react';
-import UserList from './UserList';
-import UserProfile from './UserProfile';
+import './App.css';
+import Profile from './Profile';
 
-const App = () => {
+function App() {
     return (
         <div className="App">
-            {/* Display User List */}
-            <UserList />
-            <hr />
-            {/* Display User Profile */}
-            <UserProfile userId="123" />
+            <header className="App-header">
+                <h1>Travel App</h1>
+            </header>
+            <main>
+                <Profile />
+            </main>
         </div>
     );
-};
+}
 
 export default App;

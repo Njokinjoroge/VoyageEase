@@ -1,57 +1,47 @@
-from flask import Flask, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import firebase_admin
+from firebase_admin import credentials, auth
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
-db = SQLAlchemy(app)
+CORS(app)
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    profile_pic = db.Column(db.String(200))
+# Initialize Firebase Admin SDK
+cred = credentials.Certificate('path/to/firebase_credentials.json')
+firebase_admin.initialize_app(cred)
 
-    def __repr__(self):
-        return f'<User {self.name}>'
-    
-with app.app_context():
-    db.create_all()
-
-@app.route('/')
-def home():
-    return jsonify({"message": "Welcome to the Travel App API"})
-
-@app.route('/user/<int:user_id>', methods=['GET'])
-def get_user(user_id):
-    user = User.query.get(user_id)
-    if user:
-        return jsonify({
-            'id': user.id,
-            'name': user.name,
+# Profile management routes
+@app.route('/api/profile', methods=['GET'])
+def get_profile():
+    try:
+        user = auth.get_user(request.headers.get('Authorization'))
+        profile_data = {
             'email': user.email,
-            'profile_pic': user.profile_pic
-        })
-    return jsonify({'message': 'User not found'}), 404
+            'displayName': user.display_name,
+            'photoURL': user.photo_url
+        }
+        return jsonify(profile_data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-@app.route('/user/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    user = User.query.get(user_id)
-    if user:
-        user.name = request.json.get('name', user.name)
-        user.email = request.json.get('email', user.email)
-        user.profile_pic = request.json.get('profile_pic', user.profile_pic)
-        db.session.commit()
-        return jsonify({'message': 'User updated'})
-    return jsonify({'message': 'User not found'}), 404
+@app.route('/api/profile', methods=['PUT'])
+def update_profile():
+    try:
+        user = auth.get_user(request.headers.get('Authorization'))
+        new_display_name = request.json.get('displayName')
+        auth.update_user(user.uid, display_name=new_display_name)
+        return jsonify({'message': 'Profile updated successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-@app.route('/user/<int:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    user = User.query.get(user_id)
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({'message': 'User deleted'})
-    return jsonify({'message': 'User not found'}), 404
+@app.route('/api/profile', methods=['DELETE'])
+def delete_profile():
+    try:
+        user = auth.get_user(request.headers.get('Authorization'))
+        auth.delete_user(user.uid)
+        return jsonify({'message': 'Profile deleted successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

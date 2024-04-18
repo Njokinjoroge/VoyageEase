@@ -1,82 +1,61 @@
-/* Global Styles */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #2d323b;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.profile-container div {
+  margin-bottom: 10px;
+}
+
+.profile-container label {
+  font-weight: bold;
+}
+
+.profile-container input[type='text'] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.profile-container button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #1163ce;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-container button:hover {
+  background-color: #1163ce;
+}
+
+/* Resize profile image */
+.profile-image {
+  max-width: 50;
+  max-height: 50;
+}
+
+/* Professional background */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('https://www.freepik.com/free-photo/copy-space-with-traveler-maps_5002716.htm#query=travel%20app%20background&position=2&from_view=keyword&track=ais&uuid=80710c09-cde7-4940-b91b-2c9bbe311e77'); /* Replace with your background image URL */
-    background-size: cover;
-    background-position: center;
-    color: #333;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* User Profile Styles */
-.user-profile {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.user-profile h2 {
-    color: #333;
-}
-
-.user-profile img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 20px auto;
-    display: block;
-}
-
-.edit-profile-form {
-    margin: 20px auto;
-    max-width: 300px;
-}
-
-.edit-profile-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.edit-profile-form input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.edit-profile-form button {
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
-
-.edit-profile-form button:hover {
-    background-color: #0056b3;
-}
-
-/* User List Styles */
-.user-list {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.user-list h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+  background-color: #d4cdcd;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
