@@ -9,7 +9,7 @@ function App() {
 
 	return (
 		<>
-				{/* <Routes>
+			{/* <Routes>
 					<Route
 						path="/"
 						element={<HomePage />}
@@ -21,14 +21,13 @@ function App() {
 					<Route
 						path="/register"
 						element={<RegistrationPage />}
-					/> */}
-				</Routes>
-      <LoginPage />
-      <RegistrationPage />
-      <HomePage />
-    
+					/> 
+				</Routes>*/}
+			<LoginPage />
+			<RegistrationPage />
+			<HomePage />
 		</>
-	)
+	);
 }
 
 export default App;

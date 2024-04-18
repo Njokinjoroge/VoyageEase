@@ -13,7 +13,9 @@ function LoginPage(){
             return {__html: backendHtml};
          }
 
-         createMarkup().then(result => setHTML(result));
+         createMarkup().then(result => {
+           setHTML(result)
+         });
       }, []);
 
 
