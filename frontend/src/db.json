@@ -1,0 +1,164 @@
+{
+  "destinations": [
+    {
+      "id": 1,
+      "destination": "Masai Mara National Reserve",
+      "country": "Kenya",
+      "description": "Experience the Great Migration and witness the Big Five in their natural habitat.",
+      "duration": "5 days",
+      "price": "$2000"
+    },
+    {
+      "id": 2,
+      "destination": "Serengeti National Park",
+      "country": "Tanzania",
+      "description": "Explore the vast plains and see the wildlife in one of Africa's most famous national parks.",
+      "duration": "7 days",
+      "price": "$2500"
+    },
+    {
+      "id": 3,
+      "destination": "Kruger National Park",
+      "country": "South Africa",
+      "description": "Embark on game drives and guided walks to spot the diverse wildlife of Kruger.",
+      "duration": "6 days",
+      "price": "$2200"
+    },
+    {
+      "id": 4,
+      "destination": "Okavango Delta",
+      "country": "Botswana",
+      "description": "Navigate through the waterways of the delta and encounter its rich biodiversity.",
+      "duration": "8 days",
+      "price": "$2800"
+    },
+    {
+      "id": 5,
+      "destination": "Maasai Mara & Serengeti",
+      "country": "Kenya & Tanzania",
+      "description": "Combine two iconic destinations for an unforgettable safari experience.",
+      "duration": "10 days",
+      "price": "$3500"
+    },
+    {
+      "id": 6,
+      "destination": "Etosha National Park",
+      "country": "Namibia",
+      "description": "Witness the shimmering salt pans and abundant wildlife in Etosha.",
+      "duration": "4 days",
+      "price": "$1800"
+    },
+    {
+      "id": 7,
+      "destination": "Chobe National Park",
+      "country": "Botswana",
+      "description": "Cruise along the Chobe River and see elephants, hippos, and crocodiles.",
+      "duration": "3 days",
+      "price": "$1500"
+    },
+    {
+      "id": 8,
+      "destination": "Amboseli National Park",
+      "country": "Kenya",
+      "description": "Marvel at the majestic Mount Kilimanjaro backdrop and its resident elephants.",
+      "duration": "4 days",
+      "price": "$1800"
+    },
+    {
+      "id": 9,
+      "destination": "Namib Desert",
+      "country": "Namibia",
+      "description": "Explore the towering dunes and unique desert-adapted wildlife of Namibia.",
+      "duration": "6 days",
+      "price": "$2200"
+    },
+    {
+      "id": 10,
+      "destination": "Gorilla Trekking",
+      "country": "Uganda",
+      "description": "Embark on a trek to encounter endangered mountain gorillas in their natural habitat.",
+      "duration": "5 days",
+      "price": "$2500"
+    },
+    {
+      "id": 11,
+      "destination": "Ngorongoro Crater",
+      "country": "Tanzania",
+      "description": "Descend into the world's largest intact volcanic caldera and witness diverse wildlife.",
+      "duration": "3 days",
+      "price": "$1500"
+    },
+    {
+      "id": 12,
+      "destination": "South Luangwa National Park",
+      "country": "Zambia",
+      "description": "Experience walking safaris and night drives in one of Africa's best wildlife sanctuaries.",
+      "duration": "7 days",
+      "price": "$2700"
+    },
+    {
+      "id": 13,
+      "destination": "Bwindi Impenetrable Forest",
+      "country": "Uganda",
+      "description": "Trek through dense forests to encounter the magnificent mountain gorillas.",
+      "duration": "6 days",
+      "price": "$2800"
+    },
+    {
+      "id": 14,
+      "destination": "Hwange National Park",
+      "country": "Zimbabwe",
+      "description": "Discover Zimbabwe's largest national park known for its elephant herds and predators.",
+      "duration": "4 days",
+      "price": "$2000"
+    },
+    {
+      "id": 15,
+      "destination": "Mana Pools National Park",
+      "country": "Zimbabwe",
+      "description": "Experience canoe safaris and walking safaris in this UNESCO World Heritage site.",
+      "duration": "5 days",
+      "price": "$2200"
+    },
+    {
+      "id": 16,
+      "destination": "Murchison Falls National Park",
+      "country": "Uganda",
+      "description": "Explore the dramatic waterfalls and diverse wildlife along the Nile River.",
+      "duration": "4 days",
+      "price": "$1900"
+    },
+    {
+      "id": 17,
+      "destination": "Lower Zambezi National Park",
+      "country": "Zambia",
+      "description": "Enjoy game drives and canoeing safaris with breathtaking views of the Zambezi River.",
+      "duration": "6 days",
+      "price": "$2600"
+    },
+    {
+      "id": 18,
+      "destination": "Ruaha National Park",
+      "country": "Tanzania",
+      "description": "Discover Tanzania's largest national park known for its rugged landscapes and predators.",
+      "duration": "7 days",
+      "price": "$3000"
+    },
+    {
+      "id": 19,
+      "destination": "Selous Game Reserve",
+      "country": "Tanzania",
+      "description": "Embark on boat safaris and walking safaris in one of Africa's largest game reserves.",
+      "duration": "8 days",
+      "price": "$3200"
+    },
+    {
+      "id": 20,
+      "destination": "Kafue National Park",
+      "country": "Zambia",
+      "description": "Explore Zambia's largest national park with diverse habitats and abundant wildlife.",
+      "duration": "5 days",
+      "price": "$2300"
+    }
+  ]
+}
