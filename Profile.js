@@ -104,7 +104,6 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <h1>User Profile</h1>
       <div className="profile-silhouette" onClick={() => setShowCamera(true)}>
         {showCamera && (
           <div className="camera-icon-container">
