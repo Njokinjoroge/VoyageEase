@@ -3,9 +3,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TravelPlanForm from "./components/TravelPlanForm";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
+import Profile from "./components/Profile";
+import NavBar from "./components/navbar";
 
 function App() {
 	return (
+		<>
+		<NavBar />
 		<Router>
 			<Routes>
 				<Route
@@ -20,8 +24,13 @@ function App() {
 					path="*"
 					element={<NotFound />}
 				/>
+				<Route
+					path="/profile"
+					element={<Profile/>}
+				/>
 			</Routes>
 		</Router>
+		</>
 	);
 }
 export default App
