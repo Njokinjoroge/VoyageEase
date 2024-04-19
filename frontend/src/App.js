@@ -5,31 +5,42 @@ import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
 import NavBar from "./components/navbar";
+import SignUp from "./components/SignUp";
+import LogIn from "./components/Login";
 
 function App() {
 	return (
 		<>
-		<NavBar />
-		<Router>
-			<Routes>
-				<Route
-					path="/"
-					element={<Home />}
-				/>
-				<Route
-					path="/create"
-					element={<TravelPlanForm />}
-				/>
-				<Route
-					path="*"
-					element={<NotFound />}
-				/>
-				<Route
-					path="/profile"
-					element={<Profile/>}
-				/>
-			</Routes>
-		</Router>
+			<Router>
+			<NavBar />
+				<Routes>
+					<Route
+						path="/signup"
+						element={<SignUp />}
+					/>
+					<Route
+						path="/login"
+						element={<LogIn />}
+					/>
+					<Route
+						path="/"
+						element={<Home />}
+					/>
+					<Route
+						path="/create"
+						element={<TravelPlanForm />}
+					/>
+					<Route
+						path="*"
+						element={<NotFound />}
+					/>
+					<Route
+						path="/profile"
+						element={<Profile />}
+					/>
+				</Routes>
+			</Router>
+			
 		</>
 	);
 }

@@ -4,7 +4,15 @@ import { getAuth } from "firebase/auth";
 import axios from "axios";
 import { AiOutlineCamera } from "react-icons/ai";
 
-const firebaseConfig = {};
+const firebaseConfig = {
+	apiKey: "AIzaSyBEo1Afw-v2n1RfPoGlwRNWw58MtxB8KPw",
+	authDomain: "travel-app-231bf.firebaseapp.com",
+	projectId: "travel-app-231bf",
+	storageBucket: "travel-app-231bf.appspot.com",
+	messagingSenderId: "136874312441",
+	appId: "1:136874312441:web:c8b99110da5ddb7d1ed828",
+	measurementId: "G-LJS859P4YL",
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
