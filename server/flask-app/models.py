@@ -1,9 +1,10 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
 class Traveler(db.Model):
-    _tablename_ = 'travelers'
+    __tablename__ = 'travelers'
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
@@ -11,10 +12,10 @@ class Traveler(db.Model):
     password = db.Column(db.String, nullable=False)
 
     # Relationships
-    trip_data = db.relationship('TripData', backref='traveler', cascade='all')
+    # trip_data = db.relationship('TripData', backref='traveler', cascade='all')
 
 class Destination(db.Model):
-    _tablename_ = 'destinations'
+    __tablename__ = 'destinations'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -23,26 +24,34 @@ class Destination(db.Model):
     currency = db.Column(db.String, nullable=False)
 
     # Relationships
-    trips = db.relationship('TripData', backref='destination')
+    # trips = db.relationship('TripData', backref='destination')
     activities = db.relationship('Activity', backref='destination')
 
-class TripData(db.Model):
-    _tablename_ = 'trip_data'
-
-    id = db.Column(db.Integer, primary_key=True)
-    start_date = db.Column(db.String, nullable=False)
-    end_date = db.Column(db.String, nullable=False)
-
-    # Foreign Keys
-    traveler_id = db.Column(db.Integer, db.ForeignKey('traveler.id'), nullable=False)
-    destination_id = db.Column(db.Integer, db.ForeignKey('destination.id'), nullable=False)
 
 class Activity(db.Model):
-    _tablename_ = 'activities'
+    __tablename__ = 'activities'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     cost = db.Column(db.Integer, nullable=False)
 
     # Foreign Keys
-    destination_id = db.Column(db.Integer, db.ForeignKey('destination.id'), nullable=False)
+    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'), nullable=False)
+
+class TravelPlan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    destination = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    description = db.Column(db.Text)
+
+    @classmethod
+    def search_by_destination(cls, destination):
+        return cls.query.filter(cls.destination.ilike(f'%{destination}%')).all()
+
+    @classmethod
+    def search_by_date(cls, date):
+        try:
+            date_obj = datetime.strptime(date, '%Y-%m-%d').date()
+            return cls.query.filter(cls.date == date_obj).all()
+        except ValueError:
+            return []

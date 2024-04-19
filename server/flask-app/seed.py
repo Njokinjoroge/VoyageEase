@@ -1,15 +1,15 @@
 from app import app, db
-from models import Traveler, Destination, TripData, Activity
+from models import Traveler, Destination, Activity, TravelPlan
 
 # Create database tables if they do not exist
 with app.app_context():
     db.create_all()
 
     # Clear existing data in tables
-    db.session.query(Activity).delete()
-    db.session.query(TripData).delete()
-    db.session.query(Destination).delete()
-    db.session.query(Traveler).delete()
+    # db.session.query(Activity).delete()
+    # db.session.query(TravelPlan).delete()
+    # db.session.query(Destination).delete()
+    # db.session.query(Traveler).delete()
 
     # Add travelers to the database
     traveler_1 = Traveler(username='John Doe', email='johndoe@123.com', password='passmeaword')
@@ -44,33 +44,6 @@ with app.app_context():
     db.session.add_all([destination_1, destination_2, destination_3, destination_4])
     db.session.commit()
 
-    # Add trip data to the database
-    trip_1 = TripData(
-                      start_date='2024-04-01',
-                      end_date='2024-04-10',
-                      traveler_id=traveler_1.id,
-                      destination_id=destination_1.id)
-
-    trip_2 = TripData(
-                      start_date='2024-05-01',
-                      end_date='2024-05-15',
-                      traveler_id=traveler_2.id,
-                      destination_id=destination_2.id)
-
-    trip_3 = TripData(
-                      start_date='2024-06-01',
-                      end_date='2024-06-07',
-                      traveler_id=traveler_3.id,
-                      destination_id=destination_3.id)
-
-    trip_4 = TripData(
-                      start_date='2024-07-01',
-                      end_date='2024-07-20',
-                      traveler_id=traveler_4.id,
-                      destination_id=destination_4.id)
-
-    db.session.add_all([trip_1, trip_2, trip_3, trip_4])
-    db.session.commit()
 
     # Add activities to the database
     activity_1 = Activity(name='Sightseeing',
