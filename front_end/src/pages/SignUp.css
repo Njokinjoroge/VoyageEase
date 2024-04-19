@@ -1,0 +1,30 @@
+.container {
+    border: 1px solid black;
+    height: 300px;
+    width: 250px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 96px;
+    /* text-align: left; */
+}
+
+label{
+    margin-left: 16px;
+    margin-top: 5px;
+}
+
+input{
+    padding: 4px;
+    border-radius: 2px;
+    outline: none;
+    border: 1px solid grey;
+}
+
+.btn{
+    margin-top: 24px;
+
+}
