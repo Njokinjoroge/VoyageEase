@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import "./Home.css"; // Import CSS file for styling
+import "./home.css"; // Import CSS file for styling
 
 // Destinations data with activities
 const destinationsData = [
@@ -207,10 +207,10 @@ function Home() {
 		? filterActivitiesByDestination(selectedDestination)
 		: [];
 
-	return (
+		return (
 		<div className="container">
-			<h1>Welcome to Travel Planner</h1>
-			<p>Plan your next adventure!</p>
+			<h1>Welcome to VoyageEase</h1>
+			<h3>Plan your next adventure!</h3>
 
 			{/* Search Bar */}
 			<div className="search-bar">
@@ -279,7 +279,7 @@ function Home() {
 				</div>
 
 				{/* Travelers */}
-				<div className="search-box travelers-section">
+				<div className="search-box-travelers-section">
 					<label htmlFor="travelers">Travelers:</label>
 					<div className="travelers-dropdown">
 						<select

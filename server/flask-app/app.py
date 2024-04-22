@@ -165,6 +165,7 @@ def delete_travel_plan(plan_id):
 
     return jsonify({'message': 'Travel plan deleted successfully'})
 
+
 @app.route('/profile', methods=['GET'])
 def get_profile():
     try:
@@ -178,7 +179,7 @@ def get_profile():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/profile', methods=['PUT'])
+@app.route('/profile', methods=['POST'])
 def update_profile():
     try:
         user = auth.get_user(request.headers.get('Authorization'))

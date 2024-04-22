@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 // import "./Login.css";
 
-const LogIn = () => {
+const LogIn = ({ loggedIn, setLoggedIn }) => {
 	const navigate = useNavigate();
 
 	const formSchema = yup.object().shape({
@@ -16,10 +16,20 @@ const LogIn = () => {
 			email: "",
 		},
 		validationSchema: formSchema,
-		onSubmit: () => navigate("/"),
+		onSubmit: () => {
+			setLoggedIn(true)
+			navigate("/")
+		}
 	});
+
+
+
+
+
+	
 	return (
 		<div className="container">
+			<h1>Log In</h1>
 			<form onSubmit={formik.handleSubmit}>
 				<div className="user-box" >
 				<label htmlFor="email">Email Address</label>
@@ -29,10 +39,10 @@ const LogIn = () => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
-				</div>
 				<p style={{ color: "red" }}> {formik.errors.email}</p>
+				</div>
 				<div className="user-box">
-				<label htmlFor="password">password</label>
+				<label htmlFor="password">Password</label>
 				<input
 					type="password"
 					id="password"
@@ -44,6 +54,8 @@ const LogIn = () => {
 					<button type="submit">Submit</button>
 				</div>
 			</form>
+			<p>Don't have an account?</p>
+			<a href='/signup'>Sign up here</a>
 		</div>
 	);
 };

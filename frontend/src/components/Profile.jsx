@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import axios from "axios";
 import { AiOutlineCamera } from "react-icons/ai";
+import "./profile.css";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBEo1Afw-v2n1RfPoGlwRNWw58MtxB8KPw",

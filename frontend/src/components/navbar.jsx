@@ -2,10 +2,10 @@ import React from "react";
 import { NavLink } from 'react-router-dom';
 import "./navbar.css";
 
-function NavBar(){
+function NavBar({ loggedIn }) {
 
-    return (
-		<div className='navbar'>
+	return (
+		<div className="navbar">
 			<NavLink
 				className="navlink"
 				style={{ padding: 10 }}
@@ -24,18 +24,26 @@ function NavBar(){
 				to="/create">
 				Travel Planning{" "}
 			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/signup">
-				SignUp
-			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/login">
-				Login
-			</NavLink>
+
+			{loggedIn === true ? (
+				<button>
+					<NavLink
+						className="loginlink"
+						style={{ padding: 10 }}
+						to="/login">
+						Log Out
+					</NavLink>
+				</button>
+			) : (
+				<button>
+					<NavLink
+						className="loginlink"
+						style={{ padding: 10 }}
+						to="/login">
+						Log in
+					</NavLink>
+				</button>
+			)}
 		</div>
 	);
 }

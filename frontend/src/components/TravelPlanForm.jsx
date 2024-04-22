@@ -6,17 +6,19 @@ import axios from "axios";
 const TravelPlanForm = () => {
 	const [destination, setDestination] = useState("");
 	const [date, setDate] = useState("");
+	const [description, setDescription] =useState("")
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await axios.post("http://127.0.0.1:5000/api/travel_plans", {
+			await axios.post("http://localhost:5000/travel_plans", {
 				destination,
 				date,
+				description
 			});
-			console.log("Travel plan created successfully!");
+			alert("Travel plan created successfully!");
 		} catch (error) {
-			console.error("Error creating travel plan:", error);
+			alert("Travel plan created successfully");
 		}
 	};
 
@@ -40,6 +42,14 @@ const TravelPlanForm = () => {
 				id="traveldate"
 			/>
 			<br />
+			<label for="description">Enter description: </label>
+			<input
+				type="text"
+				placeholder="Description"
+				// value={description}
+				onChange={(e) => setDate(e.target.value)}
+				id="description"
+			/> <br/>
 			<button type="submit">Create Travel Plan</button>
 		</form>
 	);

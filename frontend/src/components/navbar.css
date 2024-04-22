@@ -1,61 +1,48 @@
-.App {
-  text-align: center;
+.navbar {
+  background-color: #6fa57d; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Padding */
+  display: flex; /* Flex layout */
+  justify-content: space-between; /* Space between items */
+  position: fixed; /* Fixed positioning */
+  top: 0; /* Distance from the top */
+  width: 90%; /* Full width */
+  border-radius: 5ch;
 }
 
-.App-header {
-  background-color: #2d323b;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.navbar-brand {
+  font-size: 1.5rem; /* Brand/logo font size */
 }
 
-.profile-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
+.navbar-nav {
+  display: flex; /* Flex layout */
+  list-style: none; /* Remove list styles */
+  margin: 0;
+  padding: 0;
 }
 
-.profile-container div {
-  margin-bottom: 10px;
+.nav-item {
+  margin-right: 10px; /* Spacing between items */
 }
 
-.profile-container label {
-  font-weight: bold;
+.nav-link {
+  color: #fff; /* Text color */
+  text-decoration: none; /* Remove underline */
+  padding: 10px; /* Padding */
+  transition: color 0.3s; /* Smooth color transition */
 }
 
-.profile-container input[type='text'] {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
+.navlink:hover {
+  color: rgb(8, 146, 27); /* Hover color */
+}
+.loginlink{
+  color:white
 }
 
-.profile-container button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #1163ce;
-  color: white;
-  border: none;
-  cursor: pointer;
+.loginlink:hover{
+  color: red
 }
 
-.profile-container button:hover {
-  background-color: #1163ce;
-}
-
-/* Resize profile image */
-.profile-image {
-  max-width: 50;
-  max-height: 50;
-}
-
-/* Professional background */
 body {
-  background-color: #d4cdcd;
-  background-size: cover;
-  background-repeat: no-repeat;
+  margin-top: 100px; /* Adjust the value to match the height of your navbar */
 }

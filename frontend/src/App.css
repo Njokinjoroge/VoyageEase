@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
     margin: 0;
 }
 
@@ -24,8 +24,23 @@
   color: white;
 }
 
+body{
+  background-color: rgb(158, 175, 158);
+}
+
 .App-link {
   color: #61dafb;
+}
+
+button{
+  border-radius: 3ch;
+  background-color: rgb(43, 43, 255);
+  color: white;
+  height: 50x;
+}
+
+button:hover{
+  color: red
 }
 
 @keyframes App-logo-spin {
