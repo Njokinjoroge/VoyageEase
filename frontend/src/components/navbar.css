@@ -1,0 +1,61 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #2d323b;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.profile-container div {
+  margin-bottom: 10px;
+}
+
+.profile-container label {
+  font-weight: bold;
+}
+
+.profile-container input[type='text'] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.profile-container button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #1163ce;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-container button:hover {
+  background-color: #1163ce;
+}
+
+/* Resize profile image */
+.profile-image {
+  max-width: 50;
+  max-height: 50;
+}
+
+/* Professional background */
+body {
+  background-color: #d4cdcd;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

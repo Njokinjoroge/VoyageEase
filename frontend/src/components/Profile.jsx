@@ -110,6 +110,10 @@ const Profile = () => {
 		}
 	};
 
+	// if (loading) {
+	// 	return <div>Loading...</div>;
+	// }
+
 	return (
 		<div className="profile-container">
 			<h1>User Profile</h1>

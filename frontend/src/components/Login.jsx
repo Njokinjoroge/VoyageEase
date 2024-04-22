@@ -30,7 +30,7 @@ const LogIn = () => {
 				/>
 				<p style={{ color: "red" }}> {formik.errors.email}</p>
 
-				<label htmlFor="password">password</label>
+				<label htmlFor="password">Password</label>
 				<input
 					type="password"
 					id="password"

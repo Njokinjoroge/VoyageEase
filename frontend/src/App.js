@@ -10,7 +10,7 @@ import LogIn from "./components/Login";
 
 function App() {
   return (
-    <>
+    <div className="App">
       <Router>
         <NavBar />
         <Routes>
@@ -22,7 +22,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 
