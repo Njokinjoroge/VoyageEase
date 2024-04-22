@@ -9,39 +9,21 @@ import SignUp from "./components/SignUp";
 import LogIn from "./components/Login";
 
 function App() {
-	return (
-		<>
-			<Router>
-			<NavBar />
-				<Routes>
-					<Route
-						path="/signup"
-						element={<SignUp />}
-					/>
-					<Route
-						path="/login"
-						element={<LogIn />}
-					/>
-					<Route
-						path="/"
-						element={<Home />}
-					/>
-					<Route
-						path="/create"
-						element={<TravelPlanForm />}
-					/>
-					<Route
-						path="*"
-						element={<NotFound />}
-					/>
-					<Route
-						path="/profile"
-						element={<Profile />}
-					/>
-				</Routes>
-			</Router>
-			
-		</>
-	);
+  return (
+    <>
+      <Router>
+        <NavBar />
+        <Routes>
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/create" element={<TravelPlanForm />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
-export default App
+
+export default App;
