@@ -21,6 +21,7 @@ const LogIn = () => {
 	return (
 		<div className="container">
 			<form onSubmit={formik.handleSubmit}>
+				<div className="user-box" >
 				<label htmlFor="email">Email Address</label>
 				<input
 					id="email"
@@ -28,8 +29,9 @@ const LogIn = () => {
 					onChange={formik.handleChange}
 					value={formik.values.email}
 				/>
+				</div>
 				<p style={{ color: "red" }}> {formik.errors.email}</p>
-
+				<div className="user-box">
 				<label htmlFor="password">password</label>
 				<input
 					type="password"
@@ -37,6 +39,7 @@ const LogIn = () => {
 					name="password"
 					onChange={formik.handleChange}
 				/>
+				</div>
 				<div className="btn">
 					<button type="submit">Submit</button>
 				</div>
