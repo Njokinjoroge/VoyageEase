@@ -22,6 +22,13 @@ class Destination(db.Model):
 
     activities = db.relationship('Activity', backref='destination')
 
+def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.username,
+            'email': self.email,
+            'created_at': self.created_at
+        }
 
 class Activity(db.Model):
     __tablename__ = 'activities'

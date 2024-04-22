@@ -1,11 +1,13 @@
-from flask import Flask, jsonify, request, render_template, Blueprint
+from flask import Flask, jsonify, request, render_template, Blueprint,make_response,session
 from flask_migrate import Migrate
-from models import db, TravelPlan
+from models import db, TravelPlan,Traveler
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, auth
+from flask_restful import Api, Resource
 
 app = Flask(__name__)
+api = Api(app)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
@@ -20,6 +22,81 @@ firebase_admin.initialize_app(cred)
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 @app.route('/')
+class TravelerResource(Resource):
+    def get(self, id=None):
+        if id:
+            user = Traveler.query.get(id)
+            if not user:
+                return {'error': 'Traveler not found.'}, 404
+            return make_response(jsonify(user.to_dict())), 200
+        else:
+            users = Traveler.query.all()
+            if not users:
+                return {'error': 'There are no users to display.'}, 400
+            return make_response(jsonify([u.to_dict() for u in users]), 200)
+        
+
+    def post(self):
+        data = request.get_json()
+        new_user = Traveler(
+            username = data['name'],
+            email = data['email'],
+            password=data['password']
+        )    
+
+        db.session.add(new_user)
+        db.session.commit()
+        return {'success': 'Traveler created successfully'}, 201
+    
+    def patch(self, id):
+        user = Traveler.query.filter_by(id=id).first()
+        if not user:
+            return {'error': 'Traveler not found.'}, 404
+        data = request.json
+        for attr in request.form():
+            setattr(user, attr, request.form['attr'])
+        db.session.commit()
+        return {'success': 'Customer updated successfully.'}, 200
+    
+    def delete(self, id):
+        user = Traveler.query.get(id)
+        if not user:
+            return {'error': 'Traveler not found.'}, 404
+        db.session.delete(user)
+        db.session.commit()
+        return {}, 204
+    
+class Login(Resource):
+
+    def post(self):
+        user = Traveler.query.filter(
+            Traveler.email == request.get_json()['email']
+        ).first()
+
+        session['user_id'] = user.id
+        if not user:
+            return {'error': 'User not found.'}, 404
+        return {'message': 'successful!'}, 200
+    
+# class CheckSession(Resource):
+#     def get(self):
+#         user = Traveler.query.filter(Traveler.id == session.get('user_id')).first()
+#         if user:
+#             return user.to_dict()
+#         else:
+#             return {}, 401
+api.add_resource(TravelerResource, '/travelers', '/travelers/<int:id>')
+# api.add_resource(CheckSession, '/check_session')
+api.add_resource(Login, '/login')
+# def index():
+#     try:
+#         # Fetch all travel plans from the database
+#         travel_plans = TravelPlan.query.all()
+#         # Render the HTML template and pass the travel plans to it
+#         return render_template('travel_plans.html', travel_plans=travel_plans)
+#     except Exception as e:
+#         # Handle any exceptions and return an error message
+#         return render_template('error.html', message=str(e))
 def index():
     try:
         travel_plans = TravelPlan.query.all()
