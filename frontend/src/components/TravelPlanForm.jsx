@@ -1,8 +1,6 @@
-// frontend/src/components/TravelPlanForm.js
-
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./TravelPlanForm.css"; // Import the CSS file for styling
 const TravelPlanForm = () => {
 	const [destination, setDestination] = useState("");
 	const [date, setDate] = useState("");
@@ -55,4 +53,4 @@ const TravelPlanForm = () => {
 	);
 };
 
-export default TravelPlanForm
+export default TravelPlanForm;
