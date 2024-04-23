@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from 'react-router-dom';
 import "./navbar.css";
 
-function NavBar({ loggedIn }) {
+function NavBar({ loggedIn, setLoggedIn }) {
 
 	return (
 		<div className="navbar">
@@ -29,6 +29,7 @@ function NavBar({ loggedIn }) {
 				<button>
 					<NavLink
 						className="loginlink"
+						onClick={()=> setLoggedIn(false)}
 						style={{ padding: 10 }}
 						to="/login">
 						Log Out

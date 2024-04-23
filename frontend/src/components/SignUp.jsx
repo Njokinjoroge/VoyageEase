@@ -2,14 +2,22 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-
+// import "./signup.css"
 
 function Signup () {
     const navigate = useNavigate()
+	
     const formSchema = yup.object().shape({
 		email: yup.string().email("Invalid email").required("Must enter email"),
 		name: yup.string().required("Must enter a name"),
 		password: yup
+			.string()
+			.required("Must enter a valid password")
+			.matches(
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+				"Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+			),
+		confirm_password: yup
 			.string()
 			.required("Must enter a valid password")
 			.matches(
@@ -25,13 +33,13 @@ function Signup () {
       }, 
       validationSchema: formSchema,
       onSubmit: values => {
-        fetch('http://localhost:5000/travelers', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify(values)
-        })
-        .then(() => navigate('/login'))
-      }
+			fetch('http://localhost:5000/travelers', {
+			method: 'POST',
+			headers: {'Content-Type':'application/json'},
+			body: JSON.stringify(values)
+			})
+			.then(() => navigate('/login'))
+      	}
     })
   const inputFields = [
       {
@@ -51,6 +59,9 @@ function Signup () {
         id:'confirm_password'
       },
   ]
+
+//   console.log("Visited: ",formik.touched)
+
   return (
 		<section>
 			<div className="container">
@@ -58,8 +69,7 @@ function Signup () {
 
 				<form onSubmit={formik.handleSubmit}>
 					{inputFields.map((field) =>
-						field.name === "Password" ||
-						field.name === "Confirm Password" ? (
+						field.name === "Password" ? (
 							<>
 								<div className="user-box">
 									<label htmlFor={field.id}>
@@ -69,55 +79,82 @@ function Signup () {
 										type="password"
 										name={field.id}
 										id={field.id}
+										key={field.id}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 									/>
 								</div>
-								<p style={{ color: "red" }}>
-									{" "}
-									{formik.errors.password}
-								</p>
+								{formik.errors.password &&
+								formik.touched.password ? (
+									<p style={{ color: "red" }}>
+										{formik.errors.password}
+									</p>
+								) : null}
 							</>
-						) : 
-  
-					   field.name == "Email" ? (
+						) : field.name === "Confirm Password" ? (
 							<>
 								<div className="user-box">
-									<label
-										htmlFor={field.id}
-										key={field.id}>
+									<label htmlFor={field.id}>
+										{field.name}
+									</label>
+									<input
+										type="password"
+										name={field.id}
+										id={field.id}
+										key={field.id}
+										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
+									/>
+								</div>
+								{formik.errors.confirm_password &&
+								formik.touched.confirm_password ? (
+									<p style={{ color: "red" }}>
+										{formik.errors.confirm_password}
+									</p>
+								) : null}
+							</>
+						) : field.name == "Email" ? (
+							<>
+								<div className="user-box">
+									<label htmlFor={field.id} key={field.id}>
 										{field.name}
 									</label>
 									<input
 										type="text"
 										name={field.id}
 										id={field.id}
+										key={field.id}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 									/>
 								</div>
-								<p style={{ color: "red" }}>
-									{" "}
-									{formik.errors.email}
-								</p>
+								{formik.errors.email && formik.touched.email ? (
+									<p style={{ color: "red" }}>
+										{formik.errors.email}
+									</p>
+								) : null}
 							</>
 						) : field.name == "Name" ? (
 							<>
 								<div className="user-box">
-									<label
-										htmlFor={field.id}
-										key={field.id}>
+									<label htmlFor={field.id} key={field.id}>
+										{" "}
 										{field.name}
 									</label>
 									<input
 										type="text"
 										name={field.id}
 										id={field.id}
+										key={field.id}
 										onChange={formik.handleChange}
+										onBlur={formik.handleBlur}
 									/>
 								</div>
-								<p style={{ color: "red" }}>
-									{" "}
-									{formik.errors.name}
-								</p>
+								{formik.errors.name && formik.touched.name ? (
+									<p style={{ color: "red" }}>
+										{formik.errors.name}
+									</p>
+								) : null}
 							</>
 						) : (
 							<>{null}</>

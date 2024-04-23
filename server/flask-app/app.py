@@ -4,10 +4,8 @@ from models import db, TravelPlan,Traveler
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, auth
-from flask_restful import Api, Resource
 
 app = Flask(__name__)
-api = Api(app)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
@@ -22,7 +20,8 @@ firebase_admin.initialize_app(cred)
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 @app.route('/')
-class TravelerResource(Resource):
+
+class TravelerResource():
     def get(self, id=None):
         if id:
             user = Traveler.query.get(id)
@@ -66,17 +65,17 @@ class TravelerResource(Resource):
         db.session.commit()
         return {}, 204
     
-class Login(Resource):
+# class Login(Resource):
 
-    def post(self):
-        user = Traveler.query.filter(
-            Traveler.email == request.get_json()['email']
-        ).first()
+#     def post(self):
+#         user = Traveler.query.filter(
+#             Traveler.email == request.get_json()['email']
+#         ).first()
 
-        session['user_id'] = user.id
-        if not user:
-            return {'error': 'User not found.'}, 404
-        return {'message': 'successful!'}, 200
+#         session['user_id'] = user.id
+#         if not user:
+#             return {'error': 'User not found.'}, 404
+#         return {'message': 'successful!'}, 200
     
 # class CheckSession(Resource):
 #     def get(self):
@@ -85,9 +84,9 @@ class Login(Resource):
 #             return user.to_dict()
 #         else:
 #             return {}, 401
-api.add_resource(TravelerResource, '/travelers', '/travelers/<int:id>')
+# api.add_resource(TravelerResource, '/travelers', '/travelers/<int:id>')
 # api.add_resource(CheckSession, '/check_session')
-api.add_resource(Login, '/login')
+# api.add_resource(Login, '/login')
 # def index():
 #     try:
 #         # Fetch all travel plans from the database
@@ -97,12 +96,16 @@ api.add_resource(Login, '/login')
 #     except Exception as e:
 #         # Handle any exceptions and return an error message
 #         return render_template('error.html', message=str(e))
+
 def index():
     try:
         travel_plans = TravelPlan.query.all()
         return render_template('travel_plans.html', travel_plans=travel_plans)
     except Exception as e:
         return render_template('error.html', message=str(e))
+
+
+# -------------------------------------travel plan routes---------------------------------------------
 
 @bp.route('/travel_plans', methods=['GET'])
 def get_travel_plans():
@@ -166,6 +169,8 @@ def delete_travel_plan(plan_id):
     return jsonify({'message': 'Travel plan deleted successfully'})
 
 
+# ---------------------------profile routes---------------------------------------------
+
 @app.route('/profile', methods=['GET'])
 def get_profile():
     try:
@@ -197,6 +202,8 @@ def delete_profile():
         return jsonify({'message': 'Profile deleted successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == '__main__':
     with app.app_context():

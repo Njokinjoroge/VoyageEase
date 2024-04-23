@@ -6,10 +6,10 @@ with app.app_context():
     db.create_all()
 
     # Clear existing data in tables
-    # db.session.query(Activity).delete()
-    # db.session.query(TravelPlan).delete()
-    # db.session.query(Destination).delete()
-    # db.session.query(Traveler).delete()
+    db.session.query(Activity).delete()
+    db.session.query(TravelPlan).delete()
+    db.session.query(Destination).delete()
+    db.session.query(Traveler).delete()
 
     # Add travelers to the database
     traveler_1 = Traveler(username='John Doe', email='johndoe@123.com', password='passmeaword')
