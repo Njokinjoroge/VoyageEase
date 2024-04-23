@@ -1,5 +1,83 @@
-.search-bar{
-    position: relative;
-    width: 300px;
-}
+/* home.css */
 
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  h3 {
+    color: #666;
+  }
+  
+  .search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .search-box {
+    flex: 1 1 200px;
+  }
+  
+  .search-box select,
+  .search-box input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-box select {
+    background-color: #fff;
+  }
+  
+  .search-box input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  .search-box-travelers-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .travelers-dropdown {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .selected-destinations {
+    margin-top: 20px;
+  }
+  
+  .plan-item {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .plan-item span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .plan-item button {
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .plan-item button:hover {
+    background-color: #d32f2f;
+  }
+  

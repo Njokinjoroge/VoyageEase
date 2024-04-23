@@ -197,9 +197,39 @@ def delete_profile():
         return jsonify({'message': 'Profile deleted successfully'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+    # Add route to your Flask app
+@app.route('/api/travel_plans', methods=['POST'])
+def add_travel_plan():
+    data = request.json  # Assuming you're sending JSON data
+    # Extract data from JSON
+    country = data.get('country')
+    destination = data.get('destination')
+    activity = data.get('activity')
+    start_date = data.get('startDate')
+    adults = data.get('adults')
+    children = data.get('children')
+    
+    # Assuming you have a TravelPlan model
+    new_plan = TravelPlan(
+        country=country,
+        destination=destination,
+        activity=activity,
+        start_date=start_date,
+        adults=adults,
+        children=children
+    )
+    
+    db.session.add(new_plan)
+    db.session.commit()
+    
+    return jsonify({'message': 'Travel plan recorded successfully'}), 201
+
 
 if __name__ == '__main__':
     with app.app_context():
       db.create_all()
     
     app.run(port=5000, debug=True)
+
