@@ -10,6 +10,7 @@ class Traveler(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
+    image = db.Column(db.String, None)
 
     travel_plans = db.Relationship('TravelPlan', backref='traveler')
 
