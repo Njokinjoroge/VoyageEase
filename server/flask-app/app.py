@@ -4,8 +4,10 @@ from models import db, TravelPlan,Traveler
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, auth
+from flask_restful import Api, Resource
 
 app = Flask(__name__)
+api = Api(app)
 CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
@@ -20,8 +22,7 @@ firebase_admin.initialize_app(cred)
 bp = Blueprint('api', __name__, url_prefix='/api')
 
 @app.route('/')
-
-class TravelerResource():
+class TravelerResource(Resource):
     def get(self, id=None):
         if id:
             user = Traveler.query.get(id)
