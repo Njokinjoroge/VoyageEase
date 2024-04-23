@@ -10,6 +10,9 @@ class Traveler(db.Model):
     username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
+    image = db.Column(db.String, None)
+
+    travel_plans = db.Relationship('TravelPlan', backref='traveler')
 
 class Destination(db.Model):
     __tablename__ = 'destinations'
@@ -40,10 +43,14 @@ class Activity(db.Model):
     destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'), nullable=False)
 
 class TravelPlan(db.Model):
+    __tablename__ = 'travelplans'
+
     id = db.Column(db.Integer, primary_key=True)
     destination = db.Column(db.String(100), nullable=False)
     date = db.Column(db.Date, nullable=False)
     description = db.Column(db.Text)
+
+    traveler_id = db.Column(db.Integer, db.ForeignKey('travelers.id'), nullable=False)
 
     @classmethod
     def search_by_destination(cls, destination):
