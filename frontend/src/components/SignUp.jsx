@@ -6,7 +6,7 @@ import * as yup from 'yup'
 
 function Signup () {
     const navigate = useNavigate()
-	
+
     const formSchema = yup.object().shape({
 		email: yup.string().email("Invalid email").required("Must enter email"),
 		name: yup.string().required("Must enter a name"),
@@ -23,7 +23,8 @@ function Signup () {
 			.matches(
 				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
 				"Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-			),
+			)
+			.oneOf([yup.ref('password'), ''], 'Passwords must match')
 	});
     
   const formik = useFormik({
@@ -33,7 +34,7 @@ function Signup () {
       }, 
       validationSchema: formSchema,
       onSubmit: values => {
-			fetch('http://localhost:5000/travelers', {
+			fetch('http://localhost:5000/register', {
 			method: 'POST',
 			headers: {'Content-Type':'application/json'},
 			body: JSON.stringify(values)
@@ -67,7 +68,7 @@ function Signup () {
 			<div className="container">
 				<h2>Sign Up</h2>
 
-				<form onSubmit={formik.handleSubmit}>
+				<form onSubmit={formik.handleSubmit} className='auth-forms'>
 					{inputFields.map((field) =>
 						field.name === "Password" ? (
 							<>

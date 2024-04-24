@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 // import "./Login.css";
 
 const LogIn = ({ loggedIn, setLoggedIn }) => {
+	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
 
 	const formSchema = yup.object().shape({
@@ -23,20 +24,42 @@ const LogIn = ({ loggedIn, setLoggedIn }) => {
 			email: "",
 		},
 		validationSchema: formSchema,
-		onSubmit: () => {
+		onSubmit: (values) => {
 			// add logic for password check
-
-			setLoggedIn(true)
-			navigate("/")
+			fetch("http://127.0.0.1:5000/login", {
+				method : "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body : JSON.stringify(values)
+			})
+			.then(response => {
+				if (response.ok) {
+					setLoggedIn(true);
+					navigate("/");
+				} else if (response.status === 401) {
+					setErrorMessage(
+						"Incorrect username or password. Please try again."
+					);
+				} else {
+					alert("An error occurred. Please try again later.");
+				}
+			})
+			.catch(error => {
+				// Network or other errors
+				console.error("Error:", error);
+				alert("An error occurred. Please try again later.");
+				}
+			)
 		}
-	});
+	})
 
 
 	
 	return (
 		<div className="container">
 			<h1>Log In</h1>
-			<form onSubmit={formik.handleSubmit}>
+			<form onSubmit={formik.handleSubmit} className="auth-forms">
 				<div className="user-box">
 					<label htmlFor="email">Email Address</label>
 					<input
@@ -60,9 +83,13 @@ const LogIn = ({ loggedIn, setLoggedIn }) => {
 						onChange={formik.handleChange}
 					/>
 					{formik.errors.password && formik.touched.password ? (
-						<p style={{ color: "red" }}> {formik.errors.password}</p>
+						<p style={{ color: "red" }}>
+							{" "}
+							{formik.errors.password}
+						</p>
 					) : null}
 				</div>
+				{errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 				<div className="btn">
 					<button type="submit">Submit</button>
 				</div>

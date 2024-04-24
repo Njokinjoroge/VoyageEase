@@ -1,8 +1,9 @@
 import React from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import "./navbar.css";
 
 function NavBar({ loggedIn, setLoggedIn }) {
+	const navigate = useNavigate()
 
 	return (
 		<div className="navbar">
@@ -26,23 +27,12 @@ function NavBar({ loggedIn, setLoggedIn }) {
 			</NavLink>
 
 			{loggedIn === true ? (
-				<button>
-					<NavLink
-						className="loginlink"
-						onClick={()=> setLoggedIn(false)}
-						style={{ padding: 10 }}
-						to="/login">
-						Log Out
-					</NavLink>
+				<button onClick={() => navigate('/login')}>
+					Logout
 				</button>
 			) : (
-				<button>
-					<NavLink
-						className="loginlink"
-						style={{ padding: 10 }}
-						to="/login">
-						Log in
-					</NavLink>
+				<button onClick={() => navigate('/login')}>
+					Login
 				</button>
 			)}
 		</div>

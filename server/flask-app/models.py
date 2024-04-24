@@ -1,9 +1,10 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class Traveler(db.Model):
+class Traveler(db.Model,UserMixin):
     __tablename__ = 'travelers'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +12,7 @@ class Traveler(db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     image = db.Column(db.String, None)
+    bio = db.Column(db.String, None)
 
     travel_plans = db.Relationship('TravelPlan', backref='traveler')
 
