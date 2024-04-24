@@ -42,9 +42,10 @@ class TravelPlan(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     destination = db.Column(db.String(100), nullable=False)
+    activity = db.Column(db.String(200), None)
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
-    description = db.Column(db.Text)
+    description = db.Column(db.Text, None)
 
     traveler_id = db.Column(db.Integer, db.ForeignKey('travelers.id'), nullable=False)
 

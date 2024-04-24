@@ -5,6 +5,12 @@ import "./navbar.css";
 function NavBar({ loggedIn, setLoggedIn }) {
 	const navigate = useNavigate()
 
+	const handleLogout = () => {
+		localStorage.setItem('user_id', null)
+		localStorage.setItem('username', null)
+		navigate('/login')
+	}
+
 	return (
 		<div className="navbar">
 			<NavLink
@@ -27,7 +33,7 @@ function NavBar({ loggedIn, setLoggedIn }) {
 			</NavLink>
 
 			{loggedIn === true ? (
-				<button onClick={() => navigate('/login')}>
+				<button onClick={handleLogout}>
 					Logout
 				</button>
 			) : (

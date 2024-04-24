@@ -44,6 +44,12 @@ const LogIn = ({ loggedIn, setLoggedIn }) => {
 				} else {
 					alert("An error occurred. Please try again later.");
 				}
+				return response.json()
+			})
+			.then(res => {
+				localStorage.setItem('user_id', res.user_id)
+				localStorage.setItem("username", res.username);
+
 			})
 			.catch(error => {
 				// Network or other errors

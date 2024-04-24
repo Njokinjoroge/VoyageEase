@@ -42,6 +42,7 @@ function Signup () {
 			.then(() => navigate('/login'))
       	}
     })
+	
   const inputFields = [
       {
         name:'Name',
