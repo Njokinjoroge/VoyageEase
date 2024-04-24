@@ -27,13 +27,6 @@ class Destination(db.Model):
 
     activities = db.relationship('Activity', backref='destination')
 
-def to_dict(self):
-        return {
-            'id': self.id,
-            'name': self.username,
-            'email': self.email,
-            'created_at': self.created_at
-        }
 
 class Activity(db.Model):
     __tablename__ = 'activities'
@@ -49,7 +42,8 @@ class TravelPlan(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     destination = db.Column(db.String(100), nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    end_date = db.Column(db.Date, nullable=False)
     description = db.Column(db.Text)
 
     traveler_id = db.Column(db.Integer, db.ForeignKey('travelers.id'), nullable=False)
