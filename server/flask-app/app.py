@@ -2,9 +2,13 @@ from flask import Flask, jsonify, request, render_template, Blueprint,make_respo
 from flask_migrate import Migrate
 from models import db, TravelPlan,Traveler
 from flask_cors import CORS
-import firebase_admin
-from firebase_admin import credentials, auth
+# import firebase_admin
+# from firebase_admin import credentials, auth
 from flask_restful import Api, Resource
+from flask_session import Session
+from flask_login import LoginManager, login_user, logout_user, login_required
+
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,17 +16,68 @@ CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SESSION_COOKIE_NAME'] = 'travel_cookie'
+app.config['SECRET_KEY'] = 'group_5 '
+
+Session(app)
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
 
 db.init_app(app)
 migrate = Migrate(app, db)
 
-cred = credentials.Certificate('./firebase-cred.json')
-firebase_admin.initialize_app(cred)
-
 bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+# setup login manager
+@login_manager.user_loader
+def load_user(user_id):
+    return Traveler.query.get(int(user_id))
+
+
+@app.route('/login', methods=['POST'])
+def post():
+    email = request.json.get('email')
+    password = request.json.get('password')
+
+    user = Traveler.query.filter_by(email = email).first()
+
+    # session['user_id'] = user.id
+    if user:
+        if user.password != password:
+            return jsonify({'error': 'Password or email not correct'}),401
+        elif user.password == password:
+            login_user(user)
+            return {'message' : 'Login successful'}, 200
+    else:
+        return jsonify({'Error': 'User not found'}), 404
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    email = request.json.get('email')
+    username= request.json.get('name')
+    password = request.json.get('password')
+
+    # check user exist
+    user = Traveler.query.filter_by(email=email).first()
+    if user:
+        return jsonify({'Error': 'User already exist'}), 409
+    
+    # create new user
+    new_user = Traveler(username= username, email=email, password=password)
+
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({'message': 'User Registered Successfully'}), 201
+
+
 
 @app.route('/')
 class TravelerResource(Resource):
+
     def get(self, id=None):
         if id:
             user = Traveler.query.get(id)
@@ -66,37 +121,28 @@ class TravelerResource(Resource):
         db.session.commit()
         return {}, 204
     
-# class Login(Resource):
-
-#     def post(self):
-#         user = Traveler.query.filter(
-#             Traveler.email == request.get_json()['email']
-#         ).first()
-
-#         session['user_id'] = user.id
-#         if not user:
-#             return {'error': 'User not found.'}, 404
-#         return {'message': 'successful!'}, 200
+class CheckSession(Resource):
+    def get(self):
+        user = Traveler.query.filter(Traveler.id == session.get('user_id')).first()
+        if user:
+            return user.to_dict()
+        else:
+            return {}, 401
+        
+api.add_resource(TravelerResource, '/travelers', '/travelers/<int:id>')
+api.add_resource(CheckSession, '/check_session')
     
-# class CheckSession(Resource):
-#     def get(self):
-#         user = Traveler.query.filter(Traveler.id == session.get('user_id')).first()
-#         if user:
-#             return user.to_dict()
-#         else:
-#             return {}, 401
-# api.add_resource(TravelerResource, '/travelers', '/travelers/<int:id>')
-# api.add_resource(CheckSession, '/check_session')
-# api.add_resource(Login, '/login')
-# def index():
-#     try:
-#         # Fetch all travel plans from the database
-#         travel_plans = TravelPlan.query.all()
-#         # Render the HTML template and pass the travel plans to it
-#         return render_template('travel_plans.html', travel_plans=travel_plans)
-#     except Exception as e:
-#         # Handle any exceptions and return an error message
-#         return render_template('error.html', message=str(e))
+
+
+def index():
+    try:
+        # Fetch all travel plans from the database
+        travel_plans = TravelPlan.query.all()
+        # Render the HTML template and pass the travel plans to it
+        return render_template('travel_plans.html', travel_plans=travel_plans)
+    except Exception as e:
+        # Handle any exceptions and return an error message
+        return render_template('error.html', message=str(e))
 
 def index():
     try:
