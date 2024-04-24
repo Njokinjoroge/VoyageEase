@@ -236,10 +236,11 @@ function Home() {
         : [];
 
     return (
-        <div className="container">
-            <h1>Welcome to VoyageEase</h1>
-            <h3>Plan your next adventure!</h3>
-
+        <>
+        <div className="search-container">
+        <h1 className='main-header'  >Welcome to VoyageEase</h1>
+        <h3 className='sub-header' >Plan your next adventure!</h3>
+        
             {/* Search Bar */}
             <div className="search-bar">
                 {/* Country */}
@@ -342,6 +343,7 @@ function Home() {
             </div>
 
             {/* Selected Destinations */}
+        </div>
             <div className="selected-destinations">
                 <h2>Travel Plans:</h2>
                 {travelPlans.map((plan, index) => (
@@ -360,7 +362,7 @@ function Home() {
                     </div>
                 ))}
             </div>
-        </div>
+        </>
     );
 }
 

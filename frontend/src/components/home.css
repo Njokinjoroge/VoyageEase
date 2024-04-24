@@ -7,11 +7,11 @@
     font-family: Arial, sans-serif;
   }
   
-  h1 {
+  .main-header {
     color: #333;
   }
   
-  h3 {
+  .sub-header {
     color: #666;
   }
   
@@ -81,3 +81,9 @@
     background-color: #d32f2f;
   }
   
+  .search-container{
+    background-image: url('https://media.istockphoto.com/id/177145956/photo/african-savannah-in-kenya.jpg?s=612x612&w=0&k=20&c=GUz3SlP8UJcpPbyBh1_UuRPgiD5KfT4_L0vD1CdpDNI=');
+    background-size: auto 500px;
+    background-repeat: repeat-x;
+    padding-bottom: 100px;
+  }
