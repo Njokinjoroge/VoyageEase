@@ -1,18 +1,16 @@
 import React from 'react';
 import './App.css';
-import Profile from './Profile';
+import Profile from './components/Profile';
+
 
 function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <h1>Travel App</h1>
-            </header>
-            <main>
-                <Profile />
-            </main>
-        </div>
-    );
+  const userId = 1; // Replace this with the actual user ID
+
+  return (
+    <div className="App">
+      <Profile userId={userId} />
+    </div>
+  );
 }
 
 export default App;

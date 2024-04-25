@@ -1,61 +1,145 @@
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #0b301f;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
 }
-
-.App-header {
-  background-color: #2d323b;
-  min-height: 10vh;
+.profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.profile-container {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-}
-
-.profile-container div {
-  margin-bottom: 10px;
-}
-
-.profile-container label {
-  font-weight: bold;
-}
-
-.profile-container input[type='text'] {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
+  max-width: 600px;
 }
 
-.profile-container button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #1163ce;
-  color: white;
+.profile img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.profile h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.profile p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #0c8526;
+}
+
+.profile .bio {
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.profile form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile input,
+.profile textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.profile textarea {
+  height: 100px;
+}
+
+.profile button {
+  padding: 10px 20px;
+  background-color: #0c8526;
+  color: #fff;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.profile-container button:hover {
-  background-color: #1163ce;
+.profile button:hover {
+  background-color:#043607;
 }
 
-/* Resize profile image */
-.profile-image {
-  max-width: 50;
-  max-height: 50;
+/* New delete button style */
+.profile .delete-button {
+  background-color: #dc3545; /* Red background for delete button */
+  margin-top: 10px;
 }
 
-/* Professional background */
-body {
-  background-color: #d4cdcd;
-  background-size: cover;
-  background-repeat: no-repeat;
+.profile .delete-button:hover {
+  background-color: #790612; /* Darker red on hover */
+}
+
+.profile input::placeholder,
+.profile textarea::placeholder {
+  color: #464646; /* Light gray color for the placeholder text */
+  font-size: 16px; /* Adjust the font size as needed */
+}
+
+/* New styles for the profile picture upload component */
+.profile .profile-picture {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.profile .profile-picture img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.profile .profile-picture input[type="file"] {
+  display: none;
+}
+
+.profile .profile-picture label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  background-color: #043607;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.profile .profile-picture label:hover {
+  background-color: #127027;
 }
