@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import TravelPlanForm from "./components/TravelPlanForm";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Profile from "./components/Profile";
@@ -41,7 +40,6 @@ function App() {
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
           <Route path="/login" element={<LogIn loggedIn= {loggedIn} setLoggedIn={setLoggedIn}/>} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/create" element={<TravelPlanForm />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

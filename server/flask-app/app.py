@@ -11,7 +11,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
 
 
@@ -116,6 +116,32 @@ class ActivityData(Resource):
     
 class TravelPlanner(Resource):
 
+    def options(self):
+        response = make_response()
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "POST")
+        print(request)
+        return response
+
+    def get(self,id): 
+        
+        travel_plans = TravelPlan.query.filter_by(traveler_id=id).all()
+
+        response_arr =[]
+
+        for plan in travel_plans:
+            response_dict={
+                'destination' : plan.destination,
+                'activity' : plan.activity,
+                'start_date' : plan.start_date,
+                'end_date' : plan.end_date,
+                'description' : plan.description,
+            }
+            response_arr.append(response_dict)
+
+        return make_response(response_arr, 200)
+
     def post(self):
         data = request.json
         print(data)
@@ -126,16 +152,20 @@ class TravelPlanner(Resource):
         endDate = datetime.strptime(data.get('endDate'), "%Y-%m-%d")
         traveler_id = data.get('user_id')
 
-        new_travel_plan = TravelPlan(destination=destination, activity=activity, start_date=startDate, end_date=endDate, traveler_id=traveler_id)
-        db.session.add(new_travel_plan)
-        db.session.commit()
+        if not data:
+            return {'Error' : 'Data provided is not valid'}, 400
+        
+        if data:
+            new_travel_plan = TravelPlan(destination=destination, activity=activity, start_date=startDate, end_date=endDate, traveler_id=traveler_id)
+            db.session.add(new_travel_plan)
+            db.session.commit()
 
         return {'message' : 'Successfully created travel plan!'}, 201
     
 
 api.add_resource(DestinationData, '/destinations')
 api.add_resource(ActivityData, '/activities/' ,'/activities/<int:id>')
-api.add_resource(TravelPlanner, '/travelplan')
+api.add_resource(TravelPlanner, '/travelplan/', '/travelplan/<int:id>')
 
 
 

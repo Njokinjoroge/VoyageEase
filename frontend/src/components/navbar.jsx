@@ -8,6 +8,7 @@ function NavBar({ loggedIn, setLoggedIn }) {
 	const handleLogout = () => {
 		localStorage.setItem('user_id', null)
 		localStorage.setItem('username', null)
+		setLoggedIn(false)
 		navigate('/login')
 	}
 
@@ -25,13 +26,6 @@ function NavBar({ loggedIn, setLoggedIn }) {
 				to="/profile">
 				Your Profile
 			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/create">
-				Travel Planning{" "}
-			</NavLink>
-
 			{loggedIn === true ? (
 				<button onClick={handleLogout}>
 					Logout
