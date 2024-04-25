@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Plans</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Travel Plans</h1>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <input type="text" placeholder="Search...">
+        <button type="button">Search</button>
+    </div>
+
+    <!-- Filter options -->
+    <div class="filter-options">
+        <label for="destination-filter">Destination:</label>
+        <select id="destination-filter">
+            <option value="">All</option>
+            <option value="Europe">Europe</option>
+            <option value="Asia">Asia</option>
+            <option value="North America">North America</option>
+            <!-- Add more options as needed -->
+        </select>
+        <!-- Add more filter options for date, duration, etc. -->
+    </div>
+
+    <!-- Button to add a new travel plan -->
+    <button class="add-plan-btn">Add New Travel Plan</button>
+
+    <!-- Table to display travel plans -->
+    <table>
+        <thead>
+            <tr>
+                <th>Destination</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Budget</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through travel plans and display each row -->
+            {% for plan in travel_plans %}
+            <tr>
+                <td>{{ plan.destination }}</td>
+                <td>{{ plan.date }}</td>
+                <td>{{ plan.duration }}</td>
+                <td>{{ plan.budget }}</td>
+                <td>
+                    <!-- Buttons for CRUD operations -->
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <!-- Add pagination links here -->
+    </div>
+
+    <!-- Error message display -->
+    <div class="error-message">
+        <!-- Display error messages here -->
+    </div>
+
+    <!-- Add New Travel Plan Form -->
+    <form id="add-travel-plan-form">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" placeholder="Enter destination">
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date">
+
+        <label for="duration">Duration:</label>
+        <input type="number" id="duration" name="duration" placeholder="Enter duration in days">
+
+        <label for="budget">Budget:</label>
+        <input type="number" id="budget" name="budget" placeholder="Enter budget in USD">
+
+        <button type="submit">Add Travel Plan</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

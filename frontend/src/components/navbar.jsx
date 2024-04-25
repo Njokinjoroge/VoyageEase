@@ -1,13 +1,42 @@
 import React from "react";
-import { Route, Routes } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import "./navbar.css";
 
+function NavBar({ loggedIn, setLoggedIn }) {
+	const navigate = useNavigate()
 
-function NavBar(){
+	const handleLogout = () => {
+		localStorage.setItem('user_id', null)
+		localStorage.setItem('username', null)
+		setLoggedIn(false)
+		navigate('/login')
+	}
 
-    return(
-        <Routes>
-        </Routes>
-    )
+	return (
+		<div className="navbar">
+			<NavLink
+				className="navlink"
+				style={{ padding: 10 }}
+				to="/">
+				Home
+			</NavLink>
+			<NavLink
+				className="navlink"
+				style={{ padding: 10 }}
+				to="/profile">
+				Your Profile
+			</NavLink>
+			{loggedIn === true ? (
+				<button onClick={handleLogout}>
+					Logout
+				</button>
+			) : (
+				<button onClick={() => navigate('/login')}>
+					Login
+				</button>
+			)}
+		</div>
+	);
 }
 
 export default NavBar

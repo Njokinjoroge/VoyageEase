@@ -1,0 +1,48 @@
+.navbar {
+  background-color: #6fa57d; /* Background color */
+  color: #fff; /* Text color */
+  padding: 10px 20px; /* Padding */
+  display: flex; /* Flex layout */
+  justify-content: space-between; /* Space between items */
+  position: fixed; /* Fixed positioning */
+  top: 0; /* Distance from the top */
+  width: 90%; /* Full width */
+  border-radius: 5ch;
+}
+
+.navbar-brand {
+  font-size: 1.5rem; /* Brand/logo font size */
+}
+
+.navbar-nav {
+  display: flex; /* Flex layout */
+  list-style: none; /* Remove list styles */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin-right: 10px; /* Spacing between items */
+}
+
+.nav-link {
+  color: #ffffff; /* Text color */
+  text-decoration: none; /* Remove underline */
+  padding: 10px; /* Padding */
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.navlink:hover {
+  color: rgb(182, 5, 173); /* Hover color */
+}
+.loginlink{
+  color:white
+}
+
+.loginlink:hover{
+  color: red
+}
+
+body {
+  margin-top: 100px; /* Adjust the value to match the height of your navbar */
+}
