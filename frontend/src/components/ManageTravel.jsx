@@ -87,6 +87,10 @@ export default function ManageTravel() {
     console.log(editedPlan)
 
     const postData = async () => {
+        if(!editedPlan.activity && !editedPlan.description && !editedPlan.startDate && !editedPlan.endDate){
+            alert("Please enter data into at least one field!")
+        }
+
         await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`, {
             method: "PATCH",
             body: JSON.stringify(editedPlan),

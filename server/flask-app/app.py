@@ -11,9 +11,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-CORS(app, resources={r"/*": {"origins": "*"}})
 
-
+CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
