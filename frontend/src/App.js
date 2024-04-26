@@ -7,6 +7,7 @@ import NavBar from "./components/navbar";
 import SignUp from "./components/SignUp";
 import LogIn from "./components/Login";
 import "./App.css"
+import ManageTravel from "./components/ManageTravel";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/" element={<Home loggedIn={loggedIn} />} />
           <Route path="/login" element={<LogIn loggedIn= {loggedIn} setLoggedIn={setLoggedIn}/>} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/managetravel" element={<ManageTravel />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
