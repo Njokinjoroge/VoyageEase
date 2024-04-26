@@ -26,7 +26,7 @@ const LogIn = ({ loggedIn, setLoggedIn }) => {
 		validationSchema: formSchema,
 		onSubmit: (values) => {
 			// add logic for password check
-			fetch("http://127.0.0.1:5000/login", {
+			fetch("http://127.0.0.1:5000/api/login", {
 				method : "POST",
 				headers: {
 					"Content-Type": "application/json"

@@ -5,20 +5,19 @@ import "./home.css"; // Import CSS file for styling
 function Home({ loggedIn }) {
 	const username = localStorage.getItem("username");
 	const user_id = localStorage.getItem("user_id");
+	const navigate = useNavigate();
 
 	const [destinations, setDestinations] = useState([]);
 	const [activities, setActivities] = useState([]);
 	const [travelPlans, setTravelPlans] = useState([]);
-
 	const [formData, setFormData] = useState({
 		destination: "",
 		activity: "",
 		startDate: "",
 		endDate: "",
-		user_id: user_id,
 	});
 
-	const navigate = useNavigate();
+
 
 	useEffect(() => {
 		fetch_destinations();
@@ -27,24 +26,24 @@ function Home({ loggedIn }) {
 	}, []);
 
 	const fetch_destinations = async () => {
-		await fetch("http://127.0.0.1:5000/destinations")
+		await fetch("http://127.0.0.1:5000/api/destinations")
 			.then((res) => res.json())
 			.then((data) => setDestinations(data));
 	};
 
 	const fetchall_activities = async () => {
-		await fetch(`http://127.0.0.1:5000/activities/`)
+		await fetch(`http://127.0.0.1:5000/api/activities/`)
 			.then((res) => res.json())
 			.then((data) => setActivities(data));
 	};
 
 	const fetch_travel_plans = async () => {
-		await fetch(`http://127.0.0.1:5000/travelplan/${user_id}`)
+		await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`)
 			.then((res) => res.json())
 			.then((data) => setTravelPlans(data));
 	};
 
-	// console.log(destinations)
+	console.log(travelPlans)
 
 	const handleDestinationChange = (e) => {
 		const chosenDestination = e.target.value;
@@ -55,7 +54,7 @@ function Home({ loggedIn }) {
 		// console.log(single)
 
 		const fetchone_activity = async () => {
-			await fetch(`http://127.0.0.1:5000/activities/${single.id}`)
+			await fetch(`http://127.0.0.1:5000/api/activities/${single.id}`)
 				.then((res) => res.json())
 				.then((data) => setActivities(data));
 		};
@@ -82,34 +81,44 @@ function Home({ loggedIn }) {
 		} else if (loggedIn === true) {
 			e.preventDefault();
 
-			console.log(formData);
+				formData['user_id'] =user_id
+				console.log(formData);
 
 			const postData = async () => {
-				await fetch("http://127.0.0.1:5000/travelplan", {
+				await fetch("http://127.0.0.1:5000/api/travelplan", {
 					method: "POST",
 					body: JSON.stringify(formData),
 					headers: {
 						"Content-Type": "application/json",
 					},
-				}).then((response) => {
-					console.log(response);
-					if (response.status === 201) {
-						alert("Travel Plan Created Succsessfully!");
-					} else {
-						alert("Something went wrong. Please try again later");
-					}
-				});
+				})
+					.then((response) => {
+						console.log(response);
+						if (response.status === 201) {
+							alert("Travel Plan Created Succsessfully!");
+						} else {
+							throw new Error("Failed to update travel plan");
+						}
+					})
+					.catch((error) =>
+						alert("Error updating travel plan:", error)
+					);
 			};
-			postData();
-			setFormData({
-				destination: "",
-				activity: "",
-				startDate: "",
-				endDate: "",
-			});
+
+			if (formData.activity && formData.destination && formData.startDate && formData.endDate){
+				postData();
+				setFormData({
+					destination: "",
+					activity: "",
+					startDate: "",
+					endDate: "",
+				});
+			} else {
+				alert('Please select an option from all fields')
+			}
 		}
 	};
-	// console.log(travelPlans)
+
 
 	return (
 		<>
@@ -196,13 +205,16 @@ function Home({ loggedIn }) {
 			{/* Display TravelPlans */}
 			<div className="travel-plans">
 				{loggedIn ? <h2>{username}'s Travel Plans:</h2> : null}
-
 				{travelPlans.map((plan, index) => (
 					<div key={index} className="plan-item">
+						<h3>Trip {index +1}</h3>
 						<span>Destination: {plan.destination}</span>
 						<span>Activity Planned: {plan.activity}</span>
 						<span>From: {plan.start_date}</span>
 						<span>To: {plan.end_date}</span>
+						{plan.description ? (
+							<span>Description: {plan.description}</span>
+						) : null}
 					</div>
 				))}
 			</div>

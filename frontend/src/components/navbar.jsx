@@ -14,26 +14,20 @@ function NavBar({ loggedIn, setLoggedIn }) {
 
 	return (
 		<div className="navbar">
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/">
+			<NavLink className="navlink" style={{ padding: 10 }} to="/">
 				Home
 			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/profile">
+			<NavLink className="navlink" style={{ padding: 10 }} to="/managetravel">
+				Manage Trips
+			</NavLink>
+
+			<NavLink className="navlink" style={{ padding: 10 }} to="/profile">
 				Your Profile
 			</NavLink>
 			{loggedIn === true ? (
-				<button onClick={handleLogout}>
-					Logout
-				</button>
+				<button onClick={handleLogout}>Logout</button>
 			) : (
-				<button onClick={() => navigate('/login')}>
-					Login
-				</button>
+				<button onClick={() => navigate("/login")}>Login</button>
 			)}
 		</div>
 	);

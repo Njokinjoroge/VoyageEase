@@ -11,7 +11,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 api = Api(app)
-CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 
@@ -36,7 +36,7 @@ def load_user(user_id):
     return Traveler.query.get(int(user_id))
 
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def post():
     email = request.json.get('email')
     password = request.json.get('password')
@@ -54,7 +54,7 @@ def post():
         return jsonify({'Error': 'User not found'}), 404
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def register():
     email = request.json.get('email')
     username= request.json.get('name')
@@ -116,13 +116,13 @@ class ActivityData(Resource):
     
 class TravelPlanner(Resource):
 
-    def options(self):
-        response = make_response()
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-        response.headers.add("Access-Control-Allow-Methods", "POST")
-        print(request)
-        return response
+    # def options(self):
+    #     response = make_response()
+    #     response.headers.add("Access-Control-Allow-Origin", "*")
+    #     response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
+    #     response.headers.add("Access-Control-Allow-Methods", "POST")
+    #     print(request)
+    #     return response
 
     def get(self,id): 
         
@@ -162,10 +162,34 @@ class TravelPlanner(Resource):
 
         return {'message' : 'Successfully created travel plan!'}, 201
     
+    def patch(self, id):
+        data = request.json
 
-api.add_resource(DestinationData, '/destinations')
-api.add_resource(ActivityData, '/activities/' ,'/activities/<int:id>')
-api.add_resource(TravelPlanner, '/travelplan/', '/travelplan/<int:id>')
+        travelplan= TravelPlan.query.filter_by(
+                    traveler_id =id,
+                    destination = data.get('destination'),
+                    ).first()
+
+        print(data)
+
+        travelplan.destination = data.get('destination', travelplan.destination)
+        travelplan.activity = data.get('activity', travelplan.activity)
+        travelplan.start_date = datetime.strptime(data.get('startDate', travelplan.start_date), "%Y-%m-%d")
+        travelplan.end_date = datetime.strptime(data.get('endDate', travelplan.end_date), "%Y-%m-%d")
+        travelplan.description = data.get('description', travelplan.description)
+        travelplan.traveler_id = travelplan.traveler_id
+        db.session.commit()
+
+        return {'message' : 'successfully updated travelplan!'} , 200
+    
+    def delete(self):
+        pass
+
+    
+
+api.add_resource(DestinationData, '/api/destinations')
+api.add_resource(ActivityData, '/api/activities/' ,'/api/activities/<int:id>')
+api.add_resource(TravelPlanner, '/api/travelplan/', '/api/travelplan/<int:id>')
 
 
 
