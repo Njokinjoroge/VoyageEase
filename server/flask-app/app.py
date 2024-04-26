@@ -181,8 +181,24 @@ class TravelPlanner(Resource):
 
         return {'message' : 'successfully updated travelplan!'} , 200
     
-    def delete(self):
-        pass
+    def delete(self, id):
+        data = request.json
+
+        travelplan= TravelPlan.query.filter_by(
+                        traveler_id =id,
+                        destination = data.get('destination'),
+                        start_date = data.get('startDate')
+                        ).first()
+        
+        print(data)
+
+        if not travelplan:
+            return {'message' : 'Travel plan not found'}, 404
+        
+        db.session.delete(travelplan)
+        db.session.commit()
+
+        return {'message' : 'travelplan deleted successfully!'}, 200
 
     
 

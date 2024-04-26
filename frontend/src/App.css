@@ -42,7 +42,7 @@ button{
 }
 
 button:hover{
-  color: red
+  color: rgb(11, 248, 209)
 }
 
 @keyframes App-logo-spin {
