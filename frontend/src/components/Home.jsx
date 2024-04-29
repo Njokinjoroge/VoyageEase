@@ -119,7 +119,7 @@ function Home({ loggedIn }) {
 		fetch_destinations();
 		fetchall_activities();
 		fetch_travel_plans();
-	}, [fetch_travel_plans]);
+	}, []);
 	return (
 		<>
 			<div className="search-container">
