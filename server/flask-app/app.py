@@ -3,8 +3,6 @@ from flask_migrate import Migrate
 from models import db, TravelPlan, Traveler, Destination, Activity
 from flask_cors import CORS
 from flask_restful import Api, Resource
-from flask_session import Session
-from flask_login import LoginManager, login_user, logout_user, login_required
 from datetime import datetime
 import os
 
@@ -40,17 +38,6 @@ db.init_app(app)
 migrate = Migrate(app, db)
 bp = Blueprint('api', __name__, url_prefix='/api')
 
-Session(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'login'
-
-
-# setup login manager
-@login_manager.user_loader
-def load_user(user_id):
-    return Traveler.query.get(int(user_id))
-
-
 @app.route('/api/login', methods=['POST'])
 def post():
     email = request.json.get('email')
@@ -63,7 +50,6 @@ def post():
             return jsonify({'error': 'Password or email not correct'}),401
         
         elif user.password == password:
-            # login_user(user)
             return jsonify({'user_id': user.id, 'username' : user.username}), 200
     else:
         return jsonify({'Error': 'User not found'}), 404
@@ -221,78 +207,6 @@ class TravelPlanner(Resource):
 api.add_resource(DestinationData, '/api/destinations')
 api.add_resource(ActivityData, '/api/activities/' ,'/api/activities/<int:id>')
 api.add_resource(TravelPlanner, '/api/travelplan/', '/api/travelplan/<int:id>')
-
-
-
-
-
-# -------------------------------------travel plan routes---------------------------------------------
-
-# @bp.route('/travel_plans', methods=['GET'])
-# def get_travel_plans():
-#     try:
-#         travel_plans = TravelPlan.query.all()
-#         return render_template('travel_plans.html', travel_plans=travel_plans)
-#     except Exception as e:
-#         return render_template('error.html', error_message=str(e))
-
-# @bp.route('/travel_plans/api', methods=['GET'])
-# def get_travel_plans_api():
-#     plans = TravelPlan.query.all()
-#     return jsonify([plan.__dict__ for plan in plans])
-
-# @bp.route('/travel_plans/<int:plan_id>', methods=['GET'])
-# def get_travel_plan(plan_id):
-#     plan = TravelPlan.query.get(plan_id)
-#     if plan:
-#         return jsonify(plan.__dict__)
-#     return jsonify({'message': 'Travel plan not found'}), 404
-
-# @bp.route('/travel_plans', methods=['POST'])
-# def create_travel_plan():
-#     data = request.json
-#     destination = data.get('destination')
-#     date = data.get('date')
-#     description = data.get('description')
-
-#     if not destination or not date:
-#         return jsonify({'message': 'Destination and date are required'}), 400
-
-#     new_plan = TravelPlan(destination=destination, date=date, description=description)
-#     db.session.add(new_plan)
-#     db.session.commit()
-
-#     return jsonify({'message': 'Travel plan created successfully'}), 201
-
-# @bp.route('/travel_plans/<int:plan_id>', methods=['PUT'])
-# def update_travel_plan(plan_id):
-#     plan = TravelPlan.query.get(plan_id)
-#     if not plan:
-#         return jsonify({'message': 'Travel plan not found'}), 404
-
-#     data = request.json
-#     plan.destination = data.get('destination', plan.destination)
-#     plan.date = data.get('date', plan.date)
-#     plan.description = data.get('description', plan.description)
-#     db.session.commit()
-
-#     return jsonify({'message': 'Travel plan updated successfully'})
-
-# @bp.route('/travel_plans/<int:plan_id>', methods=['DELETE'])
-# def delete_travel_plan(plan_id):
-#     plan = TravelPlan.query.get(plan_id)
-#     if not plan:
-#         return jsonify({'message': 'Travel plan not found'}), 404
-
-#     db.session.delete(plan)
-#     db.session.commit()
-
-#     return jsonify({'message': 'Travel plan deleted successfully'})
-
-
-# ---------------------------profile routes---------------------------------------------
-
-
 
 if __name__ == '__main__':
     with app.app_context():
