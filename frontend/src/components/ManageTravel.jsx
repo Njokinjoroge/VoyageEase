@@ -132,7 +132,7 @@ export default function ManageTravel() {
 			fetch_travel_plans();
             getActivities();
 
-		}, [buttonIndex]);
+		});
   return (
 		<>
 			{/* Display TravelPlans */}
