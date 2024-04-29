@@ -24,7 +24,7 @@ export default function ManageTravel() {
 			fetch_travel_plans();
             getActivities();
 
-		}, [buttonIndex]);
+		}, [buttonIndex,fetch_travel_plans,getActivities]);
 
 
     const fetch_travel_plans = async () => {
