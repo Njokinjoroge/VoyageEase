@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, Blueprint,make_response,session
+from flask import Flask, jsonify, request, render_template, make_response
 from flask_migrate import Migrate
 from models import db, TravelPlan, Traveler, Destination, Activity
 from flask_cors import CORS
@@ -7,9 +7,8 @@ from datetime import datetime
 import os
 
 
-# app = Flask(__name__)
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 app = Flask(
     __name__,
@@ -18,25 +17,26 @@ app = Flask(
     template_folder='../client/build'
 )
 
-...
 
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("index.html")
+# @app.errorhandler(404)
+# def not_found(e):
+#     return render_template("index.html")
+
 api = Api(app)
 
-CORS(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_COOKIE_NAME'] = 'travel_cookie'
-app.config['SECRET_KEY'] = 'group_5 '
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 db.init_app(app)
 migrate = Migrate(app, db)
-bp = Blueprint('api', __name__, url_prefix='/api')
+
+CORS(app, supports_credentials=True, origins='*')
+
 
 @app.route('/api/login', methods=['POST'])
 def post():
@@ -76,7 +76,6 @@ def register():
 
 class DestinationData(Resource):
 
-
     def get(self):
         destination_list= []
 
@@ -115,15 +114,8 @@ class ActivityData(Resource):
 
         return make_response(activities_list, 200)
     
-class TravelPlanner(Resource):
 
-    # def options(self):
-    #     response = make_response()
-    #     response.headers.add("Access-Control-Allow-Origin", "*")
-    #     response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
-    #     response.headers.add("Access-Control-Allow-Methods", "POST")
-    #     print(request)
-    #     return response
+class TravelPlanner(Resource):
 
     def get(self,id): 
         
@@ -143,6 +135,52 @@ class TravelPlanner(Resource):
 
         return make_response(response_arr, 200)
 
+    
+
+    def patch(self, id):
+        data = request.json
+
+        travelplan= TravelPlan.query.filter_by(
+                    traveler_id =id,
+                    destination = data.get('destination'),
+                    ).first()
+
+        print(travelplan)
+
+        travelplan.destination = data.get('destination', travelplan.destination)
+        travelplan.activity = data.get('activity', travelplan.activity)
+        travelplan.start_date = datetime.strptime(data.get('startDate'), "%Y-%m-%d") if data.get('startDate') != '' else travelplan.start_date
+        travelplan.end_date = datetime.strptime(data.get('endDate'), "%Y-%m-%d") if data.get('endDate') != '' else travelplan.end_date
+        travelplan.description = data.get('description', travelplan.description)
+        travelplan.traveler_id = travelplan.traveler_id
+        db.session.commit()
+
+        response = {'message': 'travel plan updated successfully!'}
+        return make_response(response, 200)    
+    
+    
+    def delete(self, id):
+        data = request.json
+
+        travelplan= TravelPlan.query.filter_by(
+                        traveler_id =id,
+                        destination = data.get('destination'),
+                        activity = data.get('activity')
+                        ).first()
+        
+        print(data)
+
+        if not travelplan:
+            return {'message' : 'Travel plan not found'}, 404
+        
+        db.session.delete(travelplan)
+        db.session.commit()
+
+        response = {'message': 'travelplan deleted successfully!'}
+        return make_response(response, 200)
+
+
+class PostTravel(Resource):
     def post(self):
         data = request.json
         print(data)
@@ -161,52 +199,16 @@ class TravelPlanner(Resource):
             db.session.add(new_travel_plan)
             db.session.commit()
 
-        return {'message' : 'Successfully created travel plan!'}, 201
-    
-    def patch(self, id):
-        data = request.json
+        response = {'message': 'travel plan created successfully!'}
+        return make_response(response, 201)   
 
-        travelplan= TravelPlan.query.filter_by(
-                    traveler_id =id,
-                    destination = data.get('destination'),
-                    ).first()
-
-        print(data)
-
-        travelplan.destination = data.get('destination', travelplan.destination)
-        travelplan.activity = data.get('activity', travelplan.activity)
-        travelplan.start_date = datetime.strptime(data.get('startDate', travelplan.start_date), "%Y-%m-%d")
-        travelplan.end_date = datetime.strptime(data.get('endDate', travelplan.end_date), "%Y-%m-%d")
-        travelplan.description = data.get('description', travelplan.description)
-        travelplan.traveler_id = travelplan.traveler_id
-        db.session.commit()
-
-        return {'message' : 'successfully updated travelplan!'} , 200
-    
-    def delete(self, id):
-        data = request.json
-
-        travelplan= TravelPlan.query.filter_by(
-                        traveler_id =id,
-                        destination = data.get('destination'),
-                        start_date = data.get('startDate')
-                        ).first()
-        
-        print(data)
-
-        if not travelplan:
-            return {'message' : 'Travel plan not found'}, 404
-        
-        db.session.delete(travelplan)
-        db.session.commit()
-
-        return {'message' : 'travelplan deleted successfully!'}, 200
-
-    
 
 api.add_resource(DestinationData, '/api/destinations')
 api.add_resource(ActivityData, '/api/activities/' ,'/api/activities/<int:id>')
-api.add_resource(TravelPlanner, '/api/travelplan/', '/api/travelplan/<int:id>')
+api.add_resource(TravelPlanner, '/api/travelplan/<int:id>/')
+api.add_resource(PostTravel, '/api/travelplan/')
+
+
 
 if __name__ == '__main__':
     with app.app_context():

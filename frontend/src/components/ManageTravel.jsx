@@ -9,7 +9,6 @@ export default function ManageTravel() {
     const [buttonIndex, setButtonIndex] = useState(null);
     const [activities, setActivities] = useState([]);
     const [destinations, setDestinations] = useState([]);
-    const [deleteButtonIndex, setDeleteButtonIndex] = useState(null);
 
     const [editedPlan, setEditedPlan] = useState({
         destination: "",
@@ -19,7 +18,8 @@ export default function ManageTravel() {
         description: "",
     });
 
-    	
+    	console.log(travelPlans)
+        console.log()
 
 
     const fetch_travel_plans = async () => {
@@ -79,15 +79,18 @@ export default function ManageTravel() {
             [name]: value,
         }));
     };
-    console.log(editedPlan)
 
-    const postData = async () => {
+    const postData = async (index) => {
+        
         if(!editedPlan.activity && !editedPlan.description && !editedPlan.startDate && !editedPlan.endDate){
-            alert("Please enter data into at least one field!")
-            return
-        }
+                alert("Please enter data into at least one field!")
+                return
+            }
+            
+        editedPlan.destination = travelPlans[index].destination
+        console.log(editedPlan);
 
-        await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`, {
+        await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}/`, {
             method: "PATCH",
             body: JSON.stringify(editedPlan),
             headers: {
@@ -104,12 +107,13 @@ export default function ManageTravel() {
     };
 
         const handleDelete = (index) =>{
-            setDeleteButtonIndex(index)
 
-            const deleta = travelPlans[deleteButtonIndex]
-            
+            const deleta = travelPlans[index]
+
+            console.log("My data to delete", deleta)
+
             const deleteData = async () =>{
-                await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`, {
+                await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}/`, {
                     method : "DELETE",
                     body : JSON.stringify(deleta),
                     headers : {
@@ -132,7 +136,8 @@ export default function ManageTravel() {
 			fetch_travel_plans();
             getActivities();
 
-		});
+		},[buttonIndex]);
+        
   return (
 		<>
 			{/* Display TravelPlans */}
@@ -211,7 +216,7 @@ export default function ManageTravel() {
 									onChange={(e) => handleEditChange(e)}
 								/>{" "}
 								<br />
-								<button onClick={postData}>Update</button>
+								<button onClick={() => postData(index)}>Update</button>
 								<button
 									id="cancel-button"
 									onClick={handleCancel}>

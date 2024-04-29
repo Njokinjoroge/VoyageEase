@@ -19,8 +19,6 @@ function Home({ loggedIn }) {
 
 
 
-
-
 	const fetch_destinations = async () => {
 		await fetch("http://127.0.0.1:5000/api/destinations")
 			.then((res) => res.json())
@@ -39,7 +37,7 @@ function Home({ loggedIn }) {
 			.then((data) => setTravelPlans(data));
 	};
 
-	console.log(travelPlans)
+	// console.log(travelPlans)
 
 	const handleDestinationChange = (e) => {
 		const chosenDestination = e.target.value;
@@ -81,7 +79,7 @@ function Home({ loggedIn }) {
 				console.log(formData);
 
 			const postData = async () => {
-				await fetch("http://127.0.0.1:5000/api/travelplan", {
+				await fetch("http://127.0.0.1:5000/api/travelplan/", {
 					method: "POST",
 					body: JSON.stringify(formData),
 					headers: {
@@ -119,7 +117,9 @@ function Home({ loggedIn }) {
 		fetch_destinations();
 		fetchall_activities();
 		fetch_travel_plans();
-	});
+	}, [loggedIn]);
+
+
 	return (
 		<>
 			<div className="search-container">
