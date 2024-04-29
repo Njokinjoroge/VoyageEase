@@ -7,8 +7,8 @@ from datetime import datetime
 import os
 
 
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 app = Flask(
     __name__,
@@ -18,16 +18,16 @@ app = Flask(
 )
 
 
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("index.html")
+# @app.errorhandler(404)
+# def not_found(e):
+#     return render_template("index.html")
 
 api = Api(app)
 
 
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///travel_app.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -55,12 +55,15 @@ def post():
         return jsonify({'Error': 'User not found'}), 404
 
 
-@app.route('/api/register', methods=['POST'])
+@app.route('/api/register/', methods=['POST'])
 def register():
-    email = request.json.get('email')
-    username= request.json.get('name')
-    password = request.json.get('password')
+    data = request.json
 
+    email = data.get('email')
+    username= data.get('name')
+    password = data.get('password')
+
+    print(data)
     # check user exist
     user = Traveler.query.filter_by(email=email).first()
     if user:

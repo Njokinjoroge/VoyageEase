@@ -34,12 +34,23 @@ function Signup () {
       }, 
       validationSchema: formSchema,
       onSubmit: values => {
-			fetch('http://localhost:5000/register', {
+			console.log(values)
+
+			fetch('http://localhost:5000/api/register/', {
 			method: 'POST',
 			headers: {'Content-Type':'application/json'},
 			body: JSON.stringify(values)
 			})
-			.then(() => navigate('/login'))
+			.then((response) => {
+				if (!response.ok){
+					alert("Something went wrong, please try again later")
+				}
+				
+				if (response.ok){
+					alert('Sign Up successful!')
+					navigate('/login')}
+				}
+			)
       	}
     })
 	

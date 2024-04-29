@@ -99,7 +99,8 @@ export default function ManageTravel() {
         }).then((response) => {
             console.log(response);
             if (response.status === 200) {
-                alert("Travel Plan Created Succsessfully!");
+                alert("Travel Plan Updated Succsessfully!");
+                window.location.reload()
             } else {
                alert("Failed to update travel plan");
             }
@@ -122,6 +123,7 @@ export default function ManageTravel() {
                 }).then(response => {
                     if (response.status === 200) {
 						alert("Travel Plan Deleted Succsessfully!");
+                        window.location.reload()
 					} else {
 						alert("Failed to delete travel plan");
 					}
@@ -137,7 +139,7 @@ export default function ManageTravel() {
             getActivities();
 
 		},[buttonIndex]);
-        
+
   return (
 		<>
 			{/* Display TravelPlans */}
@@ -145,7 +147,7 @@ export default function ManageTravel() {
 				{user_id ? <h2>{username}'s Planned Trips:</h2> : null}
 				{travelPlans.map((plan, index) => (
 					<div key={index} className="plan-item">
-						<h3>Trip Info</h3>
+						<h3>Trip {index + 1} Info</h3>
 						<span>Destination: {plan.destination}</span>
 						<span>Activity Planned: {plan.activity}</span>
 						<span>From: {plan.start_date}</span>

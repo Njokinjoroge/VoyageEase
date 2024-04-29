@@ -90,6 +90,7 @@ function Home({ loggedIn }) {
 						console.log(response);
 						if (response.status === 201) {
 							alert("Travel Plan Created Succsessfully!");
+							window.location.reload()
 						} else {
 							throw new Error("Failed to update travel plan");
 						}
