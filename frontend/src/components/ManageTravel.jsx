@@ -19,12 +19,7 @@ export default function ManageTravel() {
         description: "",
     });
 
-    	useEffect(() => {
-			fetch_destinations();
-			fetch_travel_plans();
-            getActivities();
-
-		}, [buttonIndex,fetch_travel_plans,getActivities]);
+    	
 
 
     const fetch_travel_plans = async () => {
@@ -132,7 +127,12 @@ export default function ManageTravel() {
             
         }
 
+        useEffect(() => {
+			fetch_destinations();
+			fetch_travel_plans();
+            getActivities();
 
+		}, [buttonIndex,fetch_travel_plans,getActivities]);
   return (
 		<>
 			{/* Display TravelPlans */}

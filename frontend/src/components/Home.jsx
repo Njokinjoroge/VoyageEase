@@ -19,11 +19,7 @@ function Home({ loggedIn }) {
 
 
 
-	useEffect(() => {
-		fetch_destinations();
-		fetchall_activities();
-		fetch_travel_plans();
-	}, [fetch_travel_plans]);
+
 
 	const fetch_destinations = async () => {
 		await fetch("http://127.0.0.1:5000/api/destinations")
@@ -119,7 +115,11 @@ function Home({ loggedIn }) {
 		}
 	};
 
-
+	useEffect(() => {
+		fetch_destinations();
+		fetchall_activities();
+		fetch_travel_plans();
+	}, [fetch_travel_plans]);
 	return (
 		<>
 			<div className="search-container">
