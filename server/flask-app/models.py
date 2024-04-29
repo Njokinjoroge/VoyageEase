@@ -1,10 +1,10 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+# from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class Traveler(db.Model,UserMixin):
+class Traveler(db.Model):
     __tablename__ = 'travelers'
 
     id = db.Column(db.Integer, primary_key=True)

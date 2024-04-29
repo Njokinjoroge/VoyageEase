@@ -9,7 +9,7 @@ export default function ManageTravel() {
     const [buttonIndex, setButtonIndex] = useState(null);
     const [activities, setActivities] = useState([]);
     const [destinations, setDestinations] = useState([]);
-
+    const [deleteButtonIndex, setDeleteButtonIndex] = useState(null);
 
     const [editedPlan, setEditedPlan] = useState({
         destination: "",
@@ -87,6 +87,11 @@ export default function ManageTravel() {
     console.log(editedPlan)
 
     const postData = async () => {
+        if(!editedPlan.activity && !editedPlan.description && !editedPlan.startDate && !editedPlan.endDate){
+            alert("Please enter data into at least one field!")
+            return
+        }
+
         await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`, {
             method: "PATCH",
             body: JSON.stringify(editedPlan),
@@ -98,11 +103,34 @@ export default function ManageTravel() {
             if (response.status === 200) {
                 alert("Travel Plan Created Succsessfully!");
             } else {
-                throw new Error("Failed to update travel plan");
+               alert("Failed to update travel plan");
             }
-        }).catch(error => alert('Error updating travel plan:', error));
+        })
     };
 
+        const handleDelete = (index) =>{
+            setDeleteButtonIndex(index)
+
+            const deleta = travelPlans[deleteButtonIndex]
+            
+            const deleteData = async () =>{
+                await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`, {
+                    method : "DELETE",
+                    body : JSON.stringify(deleta),
+                    headers : {
+                        "Content-Type" : "application/json"
+                    }
+                }).then(response => {
+                    if (response.status === 200) {
+						alert("Travel Plan Deleted Succsessfully!");
+					} else {
+						alert("Failed to delete travel plan");
+					}
+                })
+            }
+            deleteData()
+            
+        }
 
 
   return (
@@ -117,17 +145,17 @@ export default function ManageTravel() {
 						<span>Activity Planned: {plan.activity}</span>
 						<span>From: {plan.start_date}</span>
 						<span>To: {plan.end_date}</span>
-                        {plan.description?
-                        <span>Description: {plan.description}</span> : null}
+						{plan.description ? (
+							<span>Description: {plan.description}</span>
+						) : null}
 
-						{/* Edit button */}
 						<button onClick={() => handleEdit(index)}>Edit</button>
+						<button  id='delete-button' onClick={() => handleDelete(index)}>Delete</button>
 
 						{/* Edit form */}
 						{buttonIndex === index && (
 							<div className="edit-form">
 								<h3>Edit Travel Plan</h3>
-
 								<div className="activity-change">
 									<label htmlFor="activity">
 										Change Activity
@@ -147,30 +175,42 @@ export default function ManageTravel() {
 												{activity.cost}
 											</option>
 										))}
-									</select> <br/>
+									</select>{" "}
+									<br />
 								</div>
-                                <label htmlFor='startDate'> Change Start Date</label>
+								<label htmlFor="startDate">
+									{" "}
+									Change Start Date
+								</label>
 								<input
 									type="date"
-                                    id='startDate'
+									id="startDate"
 									name="startDate"
 									value={editedPlan.startDate}
 									onChange={(e) => handleEditChange(e)}
-								/> <br/>
-                                <label htmlFor='startDate'> Change End Date</label>
+								/>{" "}
+								<br />
+								<label htmlFor="startDate">
+									{" "}
+									Change End Date
+								</label>
 								<input
 									type="date"
-                                    id='endDate'
+									id="endDate"
 									name="endDate"
 									onChange={(e) => handleEditChange(e)}
-								/> <br />
-                                <label htmlFor='description'>Add/Change Trip Description</label>
+								/>{" "}
+								<br />
+								<label htmlFor="description">
+									Add/Change Trip Description
+								</label>
 								<input
 									type="text"
-                                    id='description'
+									id="description"
 									name="description"
 									onChange={(e) => handleEditChange(e)}
-								/> <br />
+								/>{" "}
+								<br />
 								<button onClick={postData}>Update</button>
 								<button
 									id="cancel-button"
