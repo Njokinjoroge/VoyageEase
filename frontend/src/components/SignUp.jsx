@@ -14,14 +14,14 @@ function Signup () {
 			.string()
 			.required("Must enter a valid password")
 			.matches(
-				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
 				"Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
 			),
 		confirm_password: yup
 			.string()
 			.required("Must enter a valid password")
 			.matches(
-				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
 				"Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
 			)
 			.oneOf([yup.ref('password'), ''], 'Passwords must match')
@@ -115,7 +115,7 @@ function Signup () {
 									</p>
 								) : null}
 							</>
-						) : field.name == "Email" ? (
+						) : field.name === "Email" ? (
 							<>
 								<div className="user-box">
 									<label htmlFor={field.id} key={field.id}>
@@ -136,7 +136,7 @@ function Signup () {
 									</p>
 								) : null}
 							</>
-						) : field.name == "Name" ? (
+						) : field.name === "Name" ? (
 							<>
 								<div className="user-box">
 									<label htmlFor={field.id} key={field.id}>

@@ -14,7 +14,7 @@ const LogIn = ({ loggedIn, setLoggedIn }) => {
 			.string()
 			.required("Must enter a valid password")
 			.matches(
-				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
+				/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})/,
 				"Must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
 			),
 	});
