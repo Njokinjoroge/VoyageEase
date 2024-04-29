@@ -5,35 +5,29 @@ import "./navbar.css";
 function NavBar({ loggedIn, setLoggedIn }) {
 	const navigate = useNavigate()
 
+	const handleLogout = () => {
+		localStorage.setItem('user_id', null)
+		localStorage.setItem('username', null)
+		setLoggedIn(false)
+		navigate('/login')
+	}
+
 	return (
 		<div className="navbar">
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/">
+			<NavLink className="navlink" style={{ padding: 10 }} to="/">
 				Home
 			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/profile">
-				Your Profile
-			</NavLink>
-			<NavLink
-				className="navlink"
-				style={{ padding: 10 }}
-				to="/create">
-				Travel Planning{" "}
+			<NavLink className="navlink" style={{ padding: 10 }} to="/managetravel">
+				Manage Trips
 			</NavLink>
 
+			<NavLink className="navlink" style={{ padding: 10 }} to="/profile">
+				Your Profile
+			</NavLink>
 			{loggedIn === true ? (
-				<button onClick={() => navigate('/login')}>
-					Logout
-				</button>
+				<button onClick={handleLogout}>Logout</button>
 			) : (
-				<button onClick={() => navigate('/login')}>
-					Login
-				</button>
+				<button onClick={() => navigate("/login")}>Login</button>
 			)}
 		</div>
 	);

@@ -1,369 +1,225 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import "./home.css"; // Import CSS file for styling
 
-// Destinations data with activities
-const destinationsData = [
-    {
-        id: 1,
-        country: "France",
-        name: "Eiffel Tower",
-        date: "04/18/2024",
-        activities: ["Eiffel Tower", "Louvre Museum", "Seine River Cruise"],
-    },
-    // Oconst destinationsData = [
-	{
-		id: 1,
-		country: "France",
-		name: "Eiffel Tower",
-		date: "04/18/2024",
-		activities: ["Eiffel Tower", "Louvre Museum", "Seine River Cruise"],
-	},
-	{
-		id: 2,
-		country: "USA",
-		name: "Statue of Liberty",
-		date: "04/18/2024",
-		activities: ["Statue of Liberty", "Central Park", "Times Square"],
-	},
-	{
-		id: 3,
-		country: "Japan",
-		name: "Tokyo Tower",
-		date: "04/18/2024",
-		activities: ["Tokyo Tower", "Senso-ji Temple", "Shibuya Crossing"],
-	},
-	{
-		id: 4,
-		country: "Italy",
-		name: "Colosseum",
-		date: "04/18/2024",
-		activities: ["Colosseum Tour", "Roman Forum", "Trevi Fountain"],
-	},
-	{
-		id: 5,
-		country: "England",
-		name: "Big Ben",
-		date: "04/18/2024",
-		activities: ["Big Ben Tour", "British Museum", "Buckingham Palace"],
-	},
-	{
-		id: 6,
-		country: "Australia",
-		name: "Sydney Opera House",
-		date: "04/18/2024",
-		activities: [
-			"Opera House Tour",
-			"Sydney Harbour Bridge Climb",
-			"Bondi Beach",
-		],
-	},
-	{
-		id: 7,
-		country: "Spain",
-		name: "Sagrada Família",
-		date: "04/18/2024",
-		activities: ["Sagrada Família Tour", "Park Güell", "Barcelona Beach"],
-	},
-	{
-		id: 8,
-		country: "China",
-		name: "Great Wall of China",
-		date: "04/18/2024",
-		activities: ["Great Wall Tour", "Forbidden City", "Terracotta Army"],
-	},
-	{
-		id: 9,
-		country: "India",
-		name: "Taj Mahal",
-		date: "04/18/2024",
-		activities: ["Taj Mahal Tour", "Agra Fort", "Jaipur City Palace"],
-	},
-	{
-		id: 10,
-		country: "Brazil",
-		name: "Christ the Redeemer",
-		date: "04/18/2024",
-		activities: [
-			"Christ the Redeemer Tour",
-			"Sugarloaf Mountain",
-			"Copacabana Beach",
-		],
-	},
-	{
-		id: 11,
-		country: "Egypt",
-		name: "Pyramids of Giza",
-		date: "04/18/2024",
-		activities: ["Pyramids Tour", "Egyptian Museum", "Nile River Cruise"],
-	},
-	{
-		id: 12,
-		country: "Germany",
-		name: "Neuschwanstein Castle",
-		date: "04/18/2024",
-		activities: ["Castle Tour", "Marienbrücke", "Alps Hiking"],
-	},
-	{
-		id: 13,
-		country: "Russia",
-		name: "Saint Basil's Cathedral",
-		date: "04/18/2024",
-		activities: ["Cathedral Tour", "Red Square", "Hermitage Museum"],
-	},
-	{
-		id: 14,
-		country: "Kenya",
-		name: "Maasai Mara National Reserve",
-		date: "04/18/2024",
-		activities: ["Safari", "Hot Air Balloon Ride", "Visit Maasai Village"],
-	},
-	{
-		id: 15,
-		country: "South Africa",
-		name: "Kruger National Park",
-		date: "04/18/2024",
-		activities: ["Safari", "Table Mountain", "Robben Island"],
-	},
-	{
-		id: 16,
-		country: "Morocco",
-		name: "Marrakech Medina",
-		date: "04/18/2024",
-		activities: ["Medina Tour", "Jardin Majorelle", "Hassan II Mosque"],
-	},
-];
+function Home({ loggedIn }) {
+	const username = localStorage.getItem("username");
+	const user_id = localStorage.getItem("user_id");
+	const navigate = useNavigate();
 
-// Function to filter destinations based on search term
-const filterDestinationsByCountry = (searchTerm) => {
-    return destinationsData.filter((destination) =>
-        destination.country.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-};
+	const [destinations, setDestinations] = useState([]);
+	const [activities, setActivities] = useState([]);
+	const [travelPlans, setTravelPlans] = useState([]);
+	const [formData, setFormData] = useState({
+		destination: "",
+		activity: "",
+		startDate: "",
+		endDate: "",
+	});
 
-// Function to filter activities based on selected destination
-const filterActivitiesByDestination = (destinationId) => {
-    const destination = destinationsData.find(
-        (dest) => dest.id === parseInt(destinationId)
-    );
-    return destination ? destination.activities : [];
-};
 
-function Home() {
-    const [selectedCountry, setSelectedCountry] = useState(""); // Selected country
-    const [selectedDestination, setSelectedDestination] = useState(""); // Selected destination
-    const [selectedActivity, setSelectedActivity] = useState(""); // Selected activity
-    const [startDate, setStartDate] = useState(""); // Start date
-    const [adults, setAdults] = useState(1); // Number of adults
-    const [children, setChildren] = useState(0); // Number of children
-    const [travelPlans, setTravelPlans] = useState([]); // List of travel plans
 
-    // Function to handle changes in the selected country input
-    const handleCountryChange = (e) => {
-        setSelectedCountry(e.target.value);
-    };
+	useEffect(() => {
+		fetch_destinations();
+		fetchall_activities();
+		fetch_travel_plans();
+	}, []);
 
-    // Function to handle changes in the selected destination input
-    const handleDestinationChange = (e) => {
-        setSelectedDestination(e.target.value);
-    };
+	const fetch_destinations = async () => {
+		await fetch("http://127.0.0.1:5000/api/destinations")
+			.then((res) => res.json())
+			.then((data) => setDestinations(data));
+	};
 
-    // Function to handle changes in the selected activity input
-    const handleActivityChange = (e) => {
-        setSelectedActivity(e.target.value);
-    };
+	const fetchall_activities = async () => {
+		await fetch(`http://127.0.0.1:5000/api/activities/`)
+			.then((res) => res.json())
+			.then((data) => setActivities(data));
+	};
 
-    // Function to handle changes in the start date input
-    const handleStartDateChange = (e) => {
-        setStartDate(e.target.value);
-    };
+	const fetch_travel_plans = async () => {
+		await fetch(`http://127.0.0.1:5000/api/travelplan/${user_id}`)
+			.then((res) => res.json())
+			.then((data) => setTravelPlans(data));
+	};
 
-    // Function to handle changes in the number of adults input
-    const handleAdultChange = (value) => {
-        setAdults(value);
-    };
+	console.log(travelPlans)
 
-    // Function to handle changes in the number of children input
-    const handleChildrenChange = (value) => {
-        setChildren(value);
-    };
+	const handleDestinationChange = (e) => {
+		const chosenDestination = e.target.value;
 
-    // Function to add the selected destination to the list of travel plans and send to backend
-    const handleAddPlan = () => {
-        const newPlan = {
-            country: selectedCountry,
-            destination: selectedDestination,
-            activity: selectedActivity,
-            startDate: startDate,
-            adults: adults,
-            children: children,
-        };
+		const single = destinations.find(
+			(destination) => destination.location === chosenDestination
+		);
+		// console.log(single)
 
-        fetch('/api/travel_plans', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newPlan),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to add travel plan');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data.message); // Log success message
-            setTravelPlans([...travelPlans, newPlan]); // Update frontend state if needed
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    };
+		const fetchone_activity = async () => {
+			await fetch(`http://127.0.0.1:5000/api/activities/${single.id}`)
+				.then((res) => res.json())
+				.then((data) => setActivities(data));
+		};
 
-    // Function to remove a travel plan from the list
-    const handleRemovePlan = (index) => {
-        const updatedPlans = [...travelPlans];
-        updatedPlans.splice(index, 1);
-        setTravelPlans(updatedPlans);
-    };
+		fetchone_activity();
+		handleChange(e);
+		// console.log(activities)
+	};
 
-    // Filter destinations based on selected country
-    const filteredDestinations = filterDestinationsByCountry(selectedCountry);
+	const handleChange = (e) => {
+		const name = e.target.name;
+		const value = e.target.value;
 
-    // Filter activities based on selected destination
-    const activities = selectedDestination
-        ? filterActivitiesByDestination(selectedDestination)
-        : [];
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+		console.log(formData);
+	};
 
-    return (
-        <>
-        <div className="search-container">
-        <h1 className='main-header'  >Welcome to VoyageEase</h1>
-        <h3 className='sub-header' >Plan your next adventure!</h3>
-        
-            {/* Search Bar */}
-            <div className="search-bar">
-                {/* Country */}
-                <div className="search-box">
-                    <label htmlFor="country">Select Country</label>
-                    <select
-                        id="country"
-                        onChange={handleCountryChange}>
-                        <option value="">Select Country</option>
-                        {destinationsData.map((destination) => (
-                            <option
-                                key={destination.id}
-                                value={destination.country}>
-                                {destination.country}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+	const handleSubmit = (e) => {
+		if (loggedIn === false) {
+			navigate("/login");
+		} else if (loggedIn === true) {
+			e.preventDefault();
 
-                {/* Destination */}
-                <div className="search-box">
-                    <label htmlFor="destination">Select Destination</label>
-                    <select
-                        id="destination"
-                        onChange={handleDestinationChange}>
-                        <option value="">Select Destination</option>
-                        {filteredDestinations.map((destination) => (
-                            <option
-                                key={destination.id}
-                                value={destination.id}>
-                                {destination.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+				formData['user_id'] =user_id
+				console.log(formData);
 
-                {/* Activity */}
-                {selectedDestination && (
-                    <div className="search-box">
-                        <label htmlFor="activity">Select Activity</label>
-                        <select
-                            id="activity"
-                            onChange={handleActivityChange}>
-                            <option value="">Select Activity</option>
-                            {activities.map((activity) => (
-                                <option
-                                    key={activity}
-                                    value={activity}>
-                                    {activity}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                )}
+			const postData = async () => {
+				await fetch("http://127.0.0.1:5000/api/travelplan", {
+					method: "POST",
+					body: JSON.stringify(formData),
+					headers: {
+						"Content-Type": "application/json",
+					},
+				})
+					.then((response) => {
+						console.log(response);
+						if (response.status === 201) {
+							alert("Travel Plan Created Succsessfully!");
+						} else {
+							throw new Error("Failed to update travel plan");
+						}
+					})
+					.catch((error) =>
+						alert("Error updating travel plan:", error)
+					);
+			};
 
-                {/* Start Date */}
-                <div className="search-box">
-                    <label htmlFor="startDate">Start Date</label>
-                    <input
-                        id="startDate"
-                        type="date"
-                        value={startDate}
-                        onChange={handleStartDateChange}
-                    />
-                </div>
+			if (formData.activity && formData.destination && formData.startDate && formData.endDate){
+				postData();
+				setFormData({
+					destination: "",
+					activity: "",
+					startDate: "",
+					endDate: "",
+				});
+			} else {
+				alert('Please select an option from all fields')
+			}
+		}
+	};
 
-                {/* Travelers */}
-                <div className="search-box-travelers-section">
-                    <label htmlFor="travelers">Travelers:</label>
-                    <div className="travelers-dropdown">
-                        <select
-                            value={adults}
-                            onChange={(e) => handleAdultChange(e.target.value)}>
-                            {[...Array(10)].map((_, i) => (
-                                <option
-                                    key={i}
-                                    value={i + 1}>{`${i + 1} Adult${
-                                    i !== 0 ? "s" : ""
-                                }`}</option>
-                            ))}
-                        </select>
-                        <select
-                            value={children}
-                            onChange={(e) =>
-                                handleChildrenChange(e.target.value)
-                            }>
-                            {[...Array(10)].map((_, i) => (
-                                <option
-                                    key={i}
-                                    value={i}>{`${i} Child${
-                                    i !== 1 ? "ren" : ""
-                                }`}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
 
-                {/* Add Plan Button */}
-                <button onClick={handleAddPlan}>Add Plan</button>
-            </div>
+	return (
+		<>
+			<div className="search-container">
+				{loggedIn === true ? (
+					<h1 className="main-header">
+						Welcome to VoyageEase, {username}{" "}
+					</h1>
+				) : (
+					<h1 className="main-header">
+						Welcome to VoyageEase, Traveler{" "}
+					</h1>
+				)}
+				<h3 className="sub-header">Plan your next adventure!</h3>
 
-            {/* Selected Destinations */}
-        </div>
-            <div className="selected-destinations">
-                <h2>Travel Plans:</h2>
-                {travelPlans.map((plan, index) => (
-                    <div
-                        key={index}
-                        className="plan-item">
-                        <span>{plan.country}</span>
-                        <span>{plan.destination}</span>
-                        <span>{plan.activity}</span>
-                        <span>{plan.startDate}</span>
-                        <span>Adults: {plan.adults}</span>
-                        <span>Children: {plan.children}</span>
-                        <button onClick={() => handleRemovePlan(index)}>
-                            Delete
-                        </button>
-                    </div>
-                ))}
-            </div>
-        </>
-    );
+				{/* Search Bar */}
+				<div className="search-bar">
+					{/* Destination */}
+					<div className="search-box">
+						<label htmlFor="destination">Destination</label>
+
+						<select
+							id="destination"
+							name="destination"
+							onChange={handleDestinationChange}>
+							<option value="">Select Destination</option>
+							{destinations.map((destination) => (
+								<option
+									key={destination.id}
+									value={destination.location}>
+									{destination.location}
+								</option>
+							))}
+						</select>
+					</div>
+
+					{/* Activities */}
+					<div className="search-box">
+						<label htmlFor="activity">Activity</label>
+
+						<select
+							id="activity"
+							name="activity"
+							onChange={handleChange}>
+							<option value="">Select Activity</option>
+							{activities.map((activity) => (
+								<option key={activity.id} value={activity.name}>
+									{activity.name}, Cost: {activity.cost}
+								</option>
+							))}
+						</select>
+					</div>
+
+					{/* Start Date */}
+					<div className="search-box">
+						<label htmlFor="startDate">Start Date</label>
+
+						<input
+							id="startDate"
+							name="startDate"
+							type="date"
+							onChange={handleChange}
+						/>
+					</div>
+
+					{/* End Date */}
+					<div className="search-box">
+						<label htmlFor="startDate">End Date</label>
+						<input
+							id="endDate"
+							name="endDate"
+							type="date"
+							onChange={handleChange}
+						/>
+					</div>
+
+					{/* Add Plan Button */}
+					<button type="submit" onClick={handleSubmit}>
+						Add Plan
+					</button>
+				</div>
+			</div>
+
+			{/* Display TravelPlans */}
+			<div className="travel-plans">
+				{loggedIn ? <h2>{username}'s Travel Plans:</h2> : null}
+				{travelPlans.map((plan, index) => (
+					<div key={index} className="plan-item">
+						<h3>Trip {index +1}</h3>
+						<span>Destination: {plan.destination}</span>
+						<span>Activity Planned: {plan.activity}</span>
+						<span>From: {plan.start_date}</span>
+						<span>To: {plan.end_date}</span>
+						{plan.description ? (
+							<span>Description: {plan.description}</span>
+						) : null}
+					</div>
+				))}
+			</div>
+		</>
+	);
 }
 
 export default Home;
