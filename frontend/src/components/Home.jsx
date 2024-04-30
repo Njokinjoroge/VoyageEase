@@ -116,7 +116,13 @@ function Home({ loggedIn }) {
 
 	useEffect(() => {
 		fetch_destinations();
+	}, [loggedIn]);
+
+	useEffect(() => {
 		fetchall_activities();
+	}, [loggedIn]);
+
+	useEffect(() => {
 		fetch_travel_plans();
 	}, [loggedIn]);
 

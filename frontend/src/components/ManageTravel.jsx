@@ -135,11 +135,15 @@ export default function ManageTravel() {
 
         useEffect(() => {
 			fetch_destinations();
-			fetch_travel_plans();
-            getActivities();
-
 		},[buttonIndex]);
 
+        useEffect(() => {
+            fetch_travel_plans();
+        }, [buttonIndex]);
+        
+        useEffect(() => {
+            getActivities();
+        }, [buttonIndex]);
   return (
 		<>
 			{/* Display TravelPlans */}
